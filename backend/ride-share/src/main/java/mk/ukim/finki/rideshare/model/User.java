@@ -2,22 +2,21 @@ package mk.ukim.finki.rideshare.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import mk.ukim.finki.rideshare.model.base.BaseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
 
-@Data
 @Entity
-@Table(name = "application_user")
+@Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class User implements UserDetails {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name = "application_user")
+public class User extends BaseEntity implements UserDetails {
 
     @ManyToOne
     private Authority authority;
