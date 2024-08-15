@@ -53,11 +53,12 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name =  "joined_on")
     private ZonedDateTime joinedOn;
 
-    public User(String username, String password, boolean accountNonExpired, boolean accountNonLocked, boolean enabled) {
+    public User(String username, String password, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled) {
         this.username = username;
         this.password = password;
         this.accountNonExpired = accountNonExpired;
         this.accountNonLocked = accountNonLocked;
+        this.credentialsNonExpired = credentialsNonExpired;
         this.enabled = enabled;
     }
 

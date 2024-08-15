@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
                 userDetails.getPassword(),
                 userDetails.isAccountNonExpired(),
                 userDetails.isAccountNonLocked(),
+                userDetails.isCredentialsNonExpired(),
                 userDetails.isEnabled()
         ));
     }
