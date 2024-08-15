@@ -1,6 +1,9 @@
 package mk.ukim.finki.rideshare.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -8,6 +11,7 @@ import mk.ukim.finki.rideshare.model.base.BaseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -43,7 +47,11 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "provider_id")
     private String providerId;
 
+    @Column(name = "enabled")
     private boolean enabled;
+
+    @Column(name =  "joined_on")
+    private ZonedDateTime joinedOn;
 
     public User(String username, String password, boolean accountNonExpired, boolean accountNonLocked, boolean enabled) {
         this.username = username;

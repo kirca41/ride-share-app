@@ -14,6 +14,7 @@ create table application_user (
     provider                text,
     provider_id             text,
     enabled                 boolean,
+    joined_on               timestamp with time zone,
     authority_id            bigint references authority (id)
 );
 
