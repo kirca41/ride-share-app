@@ -1,8 +1,10 @@
 package mk.ukim.finki.rideshare.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import mk.ukim.finki.rideshare.model.base.BaseEntity;
 
 import java.time.ZonedDateTime;
@@ -10,6 +12,8 @@ import java.time.ZonedDateTime;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Ride extends BaseEntity {
 
     @Column(name = "origin_latitude")

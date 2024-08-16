@@ -1,0 +1,27 @@
+package mk.ukim.finki.rideshare.web.api.converter;
+
+import mk.ukim.finki.rideshare.model.Ride;
+import mk.ukim.finki.rideshare.web.api.response.RideResponse;
+import org.springframework.stereotype.Component;
+
+@Component
+public class RideConverter {
+
+    public RideResponse toResponse(Ride ride) {
+        return new RideResponse(
+                ride.getId(),
+                ride.getOriginLatitude(),
+                ride.getOriginLongitude(),
+                ride.getDestinationLatitude(),
+                ride.getDestinationLongitude(),
+                ride.getIsDoorToDoor(),
+                ride.getDepartureTime(),
+                ride.getIsDepartureTimeFlexible(),
+                ride.getPrice(),
+                ride.getHasLuggageSpace(),
+                ride.getCapacity(),
+                ride.getIsInstantBookingEnabled(),
+                ride.getProvider().getUsername()
+        );
+    }
+}
