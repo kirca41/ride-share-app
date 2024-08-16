@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import mk.ukim.finki.rideshare.model.Ride;
 import mk.ukim.finki.rideshare.model.User;
 import mk.ukim.finki.rideshare.repository.RideRepository;
+import mk.ukim.finki.rideshare.repository.specification.RideSpecification;
 import mk.ukim.finki.rideshare.service.RideService;
 import mk.ukim.finki.rideshare.service.helper.AuthHelperService;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,11 @@ public class RideServiceImpl implements RideService {
 
     private final RideRepository rideRepository;
     private final AuthHelperService authHelperService;
+
+    @Override
+    public List<Ride> getAll(String origin, String destination) {
+        return rideRepository.findAll(RideSpecification.hasOriginLikeAndDestinationLike(origin, destination));
+    }
 
     @Override
     public Ride create(String origin,
@@ -52,10 +58,5 @@ public class RideServiceImpl implements RideService {
         );
 
         return rideRepository.save(ride);
-    }
-
-    @Override
-    public List<Ride> getAll() {
-        return rideRepository.findAll();
     }
 }

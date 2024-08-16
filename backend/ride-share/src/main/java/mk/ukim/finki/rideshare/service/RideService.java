@@ -21,5 +21,5 @@ public interface RideService {
                 Integer capacity,
                 Boolean isInstantBookingEnabled);
 
-    List<Ride> getAll();
+    List<Ride> getAll(String origin, String destination);
 }
