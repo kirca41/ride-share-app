@@ -19,8 +19,10 @@ public class RideServiceImpl implements RideService {
     private final AuthHelperService authHelperService;
 
     @Override
-    public Ride create(Double originLatitude,
+    public Ride create(String origin,
+                       Double originLatitude,
                        Double originLongitude,
+                       String destination,
                        Double destinationLatitude,
                        Double destinationLongitude,
                        Boolean isDoorToDoor,
@@ -33,8 +35,10 @@ public class RideServiceImpl implements RideService {
         User activeUser = authHelperService.getActiveUser()
                 .orElseThrow(() -> new RuntimeException("You must be logged in to publish a new ride"));
         Ride ride = new Ride(
+                origin,
                 originLatitude,
                 originLongitude,
+                destination,
                 destinationLatitude,
                 destinationLongitude,
                 isDoorToDoor,

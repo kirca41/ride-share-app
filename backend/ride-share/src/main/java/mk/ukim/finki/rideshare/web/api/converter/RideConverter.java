@@ -10,8 +10,10 @@ public class RideConverter {
     public RideResponse toResponse(Ride ride) {
         return new RideResponse(
                 ride.getId(),
+                ride.getOrigin(),
                 ride.getOriginLatitude(),
                 ride.getOriginLongitude(),
+                ride.getDestination(),
                 ride.getDestinationLatitude(),
                 ride.getDestinationLongitude(),
                 ride.getIsDoorToDoor(),

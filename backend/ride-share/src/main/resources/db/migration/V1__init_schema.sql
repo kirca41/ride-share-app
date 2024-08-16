@@ -20,8 +20,10 @@ create table application_user (
 
 create table ride (
     id                         bigserial primary key,
+    origin                     text,
     origin_latitude            float,
     origin_longitude           float,
+    destination                text,
     destination_latitude       float,
     destination_longitude      float,
     is_door_to_door            boolean default false,

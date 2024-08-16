@@ -16,11 +16,17 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 public class Ride extends BaseEntity {
 
+    @Column(name = "origin")
+    private String origin;
+
     @Column(name = "origin_latitude")
     private Double originLatitude;
 
     @Column(name = "origin_longitude")
     private Double originLongitude;
+
+    @Column(name = "destination")
+    private String destination;
 
     @Column(name = "destination_latitude")
     private Double destinationLatitude;

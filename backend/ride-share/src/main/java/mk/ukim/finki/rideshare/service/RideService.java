@@ -7,8 +7,10 @@ import java.util.List;
 
 public interface RideService {
 
-    Ride create(Double originLatitude,
+    Ride create(String origin,
+                Double originLatitude,
                 Double originLongitude,
+                String destination,
                 Double destinationLatitude,
                 Double destinationLongitude,
                 Boolean isDoorToDoor,

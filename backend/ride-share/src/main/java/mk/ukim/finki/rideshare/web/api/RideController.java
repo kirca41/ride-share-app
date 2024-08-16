@@ -26,8 +26,10 @@ public class RideController {
     @PostMapping
     public RideResponse create(@RequestBody CreateRideRequest createRideRequest) {
         Ride ride = rideService.create(
+                createRideRequest.origin(),
                 createRideRequest.originLatitude(),
                 createRideRequest.originLongitude(),
+                createRideRequest.destination(),
                 createRideRequest.destinationLatitude(),
                 createRideRequest.destinationLongitude(),
                 createRideRequest.isDoorToDoor(),
