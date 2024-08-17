@@ -1,13 +1,18 @@
 package mk.ukim.finki.rideshare.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import mk.ukim.finki.rideshare.model.base.BaseEntity;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "booking")
 public class Booking extends BaseEntity {
 
     @ManyToOne

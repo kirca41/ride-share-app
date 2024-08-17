@@ -3,9 +3,9 @@ package mk.ukim.finki.rideshare.web.api;
 import lombok.AllArgsConstructor;
 import mk.ukim.finki.rideshare.model.Ride;
 import mk.ukim.finki.rideshare.service.RideService;
-import mk.ukim.finki.rideshare.web.api.converter.RideConverter;
-import mk.ukim.finki.rideshare.web.api.request.CreateRideRequest;
-import mk.ukim.finki.rideshare.web.api.response.RideResponse;
+import mk.ukim.finki.rideshare.web.converter.RideConverter;
+import mk.ukim.finki.rideshare.web.request.CreateRideRequest;
+import mk.ukim.finki.rideshare.web.response.RideResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

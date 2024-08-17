@@ -7,6 +7,10 @@ import java.util.List;
 
 public interface RideService {
 
+    List<Ride> getAll(String origin, String destination);
+
+    Ride getById(Long id);
+
     Ride create(String origin,
                 Double originLatitude,
                 Double originLongitude,
@@ -20,6 +24,4 @@ public interface RideService {
                 Boolean hasLuggageSpace,
                 Integer capacity,
                 Boolean isInstantBookingEnabled);
-
-    List<Ride> getAll(String origin, String destination);
 }

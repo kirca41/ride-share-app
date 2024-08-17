@@ -49,19 +49,6 @@ create table booking (
     ride_id   bigint references ride (id)
 );
 
-create table booking_request_status (
-    id          bigserial primary key,
-    name        text not null,
-    pretty_name text not null
-);
-
-create table booking_request (
-    id           bigserial primary key,
-    status_id    bigint references booking_status (id),
-    requested_by bigint references application_user (id),
-    ride_id      bigint references ride (id)
-);
-
 create table rating (
     id       bigserial primary key,
     value    float not null,

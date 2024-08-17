@@ -1,8 +1,9 @@
-package mk.ukim.finki.rideshare.web.api.request;
+package mk.ukim.finki.rideshare.web.response;
 
 import java.time.ZonedDateTime;
 
-public record CreateRideRequest(
+public record RideResponse(
+        Long id,
         String origin,
         Double originLatitude,
         Double originLongitude,
@@ -15,6 +16,7 @@ public record CreateRideRequest(
         Double price,
         Boolean hasLuggageSpace,
         Integer capacity,
-        Boolean isInstantBookingEnabled
+        Boolean isInstantBookingEnabled,
+        String providerUsername
 ) {
 }

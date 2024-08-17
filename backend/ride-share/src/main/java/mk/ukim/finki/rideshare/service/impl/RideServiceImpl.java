@@ -25,6 +25,12 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
+    public Ride getById(Long id) {
+        return rideRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Entity not found exception"));
+    }
+
+    @Override
     public Ride create(String origin,
                        Double originLatitude,
                        Double originLongitude,
@@ -39,7 +45,7 @@ public class RideServiceImpl implements RideService {
                        Integer capacity,
                        Boolean isInstantBookingEnabled) {
         User activeUser = authHelperService.getActiveUser()
-                .orElseThrow(() -> new RuntimeException("You must be logged in to publish a new ride"));
+                .orElseThrow(() -> new RuntimeException("You must be logged in to publish a new ride")); // Should also check Authority
         Ride ride = new Ride(
                 origin,
                 originLatitude,

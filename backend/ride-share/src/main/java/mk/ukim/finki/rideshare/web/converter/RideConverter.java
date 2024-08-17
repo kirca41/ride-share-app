@@ -1,7 +1,7 @@
-package mk.ukim.finki.rideshare.web.api.converter;
+package mk.ukim.finki.rideshare.web.converter;
 
 import mk.ukim.finki.rideshare.model.Ride;
-import mk.ukim.finki.rideshare.web.api.response.RideResponse;
+import mk.ukim.finki.rideshare.web.response.RideResponse;
 import org.springframework.stereotype.Component;
 
 @Component
