@@ -2,12 +2,12 @@ package mk.ukim.finki.rideshare.repository.specification;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.Arrays;
+import java.util.List;
 
 public class SpecificationFactory {
 
-    public static <T> Specification<T> chainAndSpecifications(Specification<T> ...specifications) {
-        return Arrays.stream(specifications).reduce(Specification::and)
+    public static <T> Specification<T> chainAndSpecifications(List<Specification<T>> specifications) {
+        return specifications.stream().reduce(Specification::and)
                 .orElseGet(() -> Specification.where(null));
     }
 
