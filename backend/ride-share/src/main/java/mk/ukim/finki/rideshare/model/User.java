@@ -62,6 +62,17 @@ public class User extends BaseEntity implements UserDetails {
         this.enabled = enabled;
     }
 
+    public User(String username, String password, String mobileNumber, Authority authority) {
+        this.username = username;
+        this.password = password;
+        this.mobileNumber = mobileNumber;
+        this.accountNonExpired = true;
+        this.accountNonLocked = true;
+        this.credentialsNonExpired = true;
+        this.enabled = true;
+        this.authority = authority;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(authority);

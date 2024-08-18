@@ -18,3 +18,6 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: none
+
+secret:
+  key: ${SECRET_KEY}

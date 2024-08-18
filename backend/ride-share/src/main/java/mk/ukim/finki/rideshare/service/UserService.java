@@ -1,9 +1,9 @@
 package mk.ukim.finki.rideshare.service;
 
+import mk.ukim.finki.rideshare.model.Authority;
 import mk.ukim.finki.rideshare.model.User;
-import org.springframework.security.core.userdetails.UserDetails;
 
 public interface UserService {
 
-    User createUser(UserDetails userDetails);
+    User createUser(String username, String password, String mobileNumber, Authority authority);
 }
