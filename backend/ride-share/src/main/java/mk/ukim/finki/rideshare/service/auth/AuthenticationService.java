@@ -33,6 +33,8 @@ public class AuthenticationService {
     public AuthenticationDto register(UserRegisterDto userRegisterDto) {
         Authority authority = authorityService.getByAuthority(ApplicationConstants.AUTHORITY_ADMIN);
         User user = this.userService.createUser(
+                userRegisterDto.firstName(),
+                userRegisterDto.lastName(),
                 userRegisterDto.username(),
                 passwordEncoder.encode(userRegisterDto.password()),
                 userRegisterDto.mobileNumber(),

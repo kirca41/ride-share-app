@@ -3,3 +3,6 @@ values ('NEW', 'New'),
        ('APPROVED', 'Approved'),
        ('CANCELED', 'Canceled'),
        ('DECLINED', 'Declined');
+
+insert into authority(authority)
+values ('ADMIN'), ('USER');

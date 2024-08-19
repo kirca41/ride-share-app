@@ -5,6 +5,8 @@ create table authority (
 
 create table application_user (
     id                      bigserial primary key,
+    first_name              text,
+    last_name               text,
     username                text unique,
     password                text,
     mobile_number           text,
@@ -14,7 +16,7 @@ create table application_user (
     provider                text,
     provider_id             text,
     enabled                 boolean,
-    joined_on               timestamp with time zone,
+    joined_on               timestamp with time zone default now(),
     authority_id            bigint references authority (id)
 );
 
