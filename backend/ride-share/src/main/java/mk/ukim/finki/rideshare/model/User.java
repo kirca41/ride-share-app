@@ -19,7 +19,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "application_user")
+@Table(name = "ride_share_user")
 public class User extends BaseEntity implements UserDetails {
 
     @Column(name = "first_name")

@@ -3,7 +3,7 @@ create table authority (
     authority text
 );
 
-create table application_user (
+create table ride_share_user (
     id                      bigserial primary key,
     first_name              text,
     last_name               text,
@@ -35,7 +35,7 @@ create table ride (
     has_luggage_space          boolean default false,
     capacity                   integer default 0,
     is_instant_booking_enabled boolean default false,
-    provider_id                bigint references application_user (id)
+    provider_id                bigint references ride_share_user (id)
 );
 
 create table booking_status (
@@ -47,7 +47,7 @@ create table booking_status (
 create table booking (
     id        bigserial primary key,
     status_id bigint references booking_status (id),
-    booked_by bigint references application_user (id),
+    booked_by bigint references ride_share_user (id),
     ride_id   bigint references ride (id)
 );
 
@@ -55,13 +55,13 @@ create table rating (
     id       bigserial primary key,
     value    float not null,
     ride_id  bigint references ride (id),
-    rated_by bigint references application_user (id)
+    rated_by bigint references ride_share_user (id)
 );
 
 create table message (
     id           bigserial primary key,
     timestamp    timestamp with time zone default now(),
     content      text not null,
-    recipient_id bigint references application_user (id),
-    sender_id    bigint references application_user (id)
+    recipient_id bigint references ride_share_user (id),
+    sender_id    bigint references ride_share_user (id)
 );
