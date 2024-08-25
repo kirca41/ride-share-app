@@ -1,7 +1,5 @@
 package mk.ukim.finki.rideshare.web.response;
 
-import java.time.ZonedDateTime;
-
 public record RideResponse(
         Long id,
         String origin,
@@ -11,12 +9,14 @@ public record RideResponse(
         Double destinationLatitude,
         Double destinationLongitude,
         Boolean isDoorToDoor,
-        ZonedDateTime departureTime,
+        String departureDate,
+        String departureTime,
         Boolean isDepartureTimeFlexible,
         Double price,
         Boolean hasLuggageSpace,
         Integer capacity,
+        Integer seatsLeft,
         Boolean isInstantBookingEnabled,
-        String providerUsername
+        String providerFullName
 ) {
 }

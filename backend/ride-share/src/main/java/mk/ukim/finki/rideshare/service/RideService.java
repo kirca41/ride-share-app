@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface RideService {
 
-    List<Ride> getAll(String origin, String destination);
+    List<Ride> search(String origin, String destination);
 
     Ride getById(Long id);
 

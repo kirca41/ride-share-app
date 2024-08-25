@@ -20,7 +20,7 @@ public class RideServiceImpl implements RideService {
     private final AuthHelperService authHelperService;
 
     @Override
-    public List<Ride> getAll(String origin, String destination) {
+    public List<Ride> search(String origin, String destination) {
         return rideRepository.findAll(RideSpecification.hasOriginLikeAndDestinationLike(origin, destination));
     }
 

@@ -1,18 +1,16 @@
 import axiosConfig from "../config/axiosConfig";
-import { AuthenticationResponse } from "../interfaces/AuthenticationResponse";
+import { AuthenticationResponse } from "../interfaces/response/AuthenticationResponse";
 import { UserLogin } from "../interfaces/UserLogin";
 import { UserRegister } from "../interfaces/UserRegister";
 
 const path = 'public/auth';
 
-async function register(userRegister: UserRegister) {
+export const register = async (userRegister: UserRegister) =>  {
     const response = await axiosConfig.post(`${path}/register`, userRegister);    
     return response.data as AuthenticationResponse;    
 }
 
-async function login(userLogin: UserLogin) {
+export const login = async (userLogin: UserLogin) => {
     const response = await axiosConfig.post(`${path}/login`, userLogin);
     return response.data as AuthenticationResponse;
 }
-
-export { register, login };

@@ -19,9 +19,9 @@ public class RideController {
     private final RideConverter rideConverter;
 
     @GetMapping
-    public List<RideResponse> getAll(@RequestParam(required = false) String origin,
+    public List<RideResponse> search(@RequestParam(required = false) String origin,
                                      @RequestParam(required = false) String destination) {
-        return rideService.getAll(origin, destination).stream().map(rideConverter::toResponse).toList();
+        return rideService.search(origin, destination).stream().map(rideConverter::toResponse).toList();
     }
 
     @PostMapping
