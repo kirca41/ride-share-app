@@ -5,10 +5,12 @@ import mk.ukim.finki.rideshare.model.Ride;
 import mk.ukim.finki.rideshare.model.User;
 import mk.ukim.finki.rideshare.repository.RideRepository;
 import mk.ukim.finki.rideshare.repository.specification.RideSpecification;
+import mk.ukim.finki.rideshare.service.BookingRideManagingService;
 import mk.ukim.finki.rideshare.service.RideService;
 import mk.ukim.finki.rideshare.service.helper.AuthHelperService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -18,10 +20,28 @@ public class RideServiceImpl implements RideService {
 
     private final RideRepository rideRepository;
     private final AuthHelperService authHelperService;
+    private final BookingRideManagingService bookingRideManagingService;
 
     @Override
-    public List<Ride> search(String origin, String destination) {
-        return rideRepository.findAll(RideSpecification.hasOriginLikeAndDestinationLike(origin, destination));
+    public List<Ride> search(String origin, String destination, LocalDate date, Integer seats) {
+        List<Ride> rides = rideRepository.findAll(
+                RideSpecification
+                        .hasOriginLikeAndDestinationLikeAndDepartureDateTime(
+                                origin, destination, date
+                        )
+        );
+
+        if (seats == null)
+            return rides;
+
+        return rides.stream()
+                .filter(r -> hasRideEnoughSeatsLeft(r, seats))
+                .toList();
+    }
+
+    private Boolean hasRideEnoughSeatsLeft(Ride ride, Integer seats) {
+        return ride.getCapacity() -
+                bookingRideManagingService.getAllByRideAndStatusApproved(ride).size() >= seats;
     }
 
     @Override

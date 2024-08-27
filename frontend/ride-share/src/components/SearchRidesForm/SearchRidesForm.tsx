@@ -7,7 +7,11 @@ import { LocationSelectOption } from '../../interfaces/LocationSelectOption';
 import { searchLocation } from '../../services/osmService';
 import { debounce } from 'lodash';
 
-const SearchRidesForm: React.FC = ({ onSearchRidesFormSubmit }) => {
+interface SearchRidesFormProps {
+    onSearchRidesFormSubmit: (origin?: string, destination?: string, date?: string, seats?: number) => void
+}
+
+const SearchRidesForm: React.FC<SearchRidesFormProps> = ({ onSearchRidesFormSubmit }: SearchRidesFormProps) => {
     const [origin, setOrigin] = useState<LocationSelectOption | null>(null);
     const [destination, setDestination] = useState<LocationSelectOption | null>(null);
     const [date, setDate] = useState<Dayjs | null>(dayjs(new Date()));
@@ -36,7 +40,7 @@ const SearchRidesForm: React.FC = ({ onSearchRidesFormSubmit }) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSearchRidesFormSubmit(origin?.value, destination?.value, date, seats);
+        onSearchRidesFormSubmit(origin?.value, destination?.value, date?.format('YYYY-MM-DD'), seats);
     };
 
     return (

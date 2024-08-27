@@ -37,8 +37,8 @@ public class Ride extends BaseEntity {
     @Column(name = "is_door_to_door")
     private Boolean isDoorToDoor;
 
-    @Column(name = "departure_time")
-    private ZonedDateTime departureTime;
+    @Column(name = "departure_date_time")
+    private ZonedDateTime departureDateTime;
 
     @Column(name = "is_departure_time_flexible")
     private Boolean isDepartureTimeFlexible;

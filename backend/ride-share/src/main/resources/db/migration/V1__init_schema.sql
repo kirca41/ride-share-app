@@ -29,7 +29,7 @@ create table ride (
     destination_latitude       float,
     destination_longitude      float,
     is_door_to_door            boolean default false,
-    departure_time             timestamp with time zone,
+    departure_date_time        timestamp with time zone,
     is_departure_time_flexible boolean default false,
     price                      float,
     has_luggage_space          boolean default false,

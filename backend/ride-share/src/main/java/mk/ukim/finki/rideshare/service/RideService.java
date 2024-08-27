@@ -2,12 +2,13 @@ package mk.ukim.finki.rideshare.service;
 
 import mk.ukim.finki.rideshare.model.Ride;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 
 public interface RideService {
 
-    List<Ride> search(String origin, String destination);
+    List<Ride> search(String origin, String destination, LocalDate date, Integer seats);
 
     Ride getById(Long id);
 

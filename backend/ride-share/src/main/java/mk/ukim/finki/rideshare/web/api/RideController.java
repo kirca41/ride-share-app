@@ -8,6 +8,7 @@ import mk.ukim.finki.rideshare.web.request.CreateRideRequest;
 import mk.ukim.finki.rideshare.web.response.RideResponse;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -20,8 +21,10 @@ public class RideController {
 
     @GetMapping
     public List<RideResponse> search(@RequestParam(required = false) String origin,
-                                     @RequestParam(required = false) String destination) {
-        return rideService.search(origin, destination).stream().map(rideConverter::toResponse).toList();
+                                     @RequestParam(required = false) String destination,
+                                     @RequestParam(required = false) LocalDate date,
+                                     @RequestParam(required = false) Integer seats) {
+        return rideService.search(origin, destination, date, seats).stream().map(rideConverter::toResponse).toList();
     }
 
     @PostMapping

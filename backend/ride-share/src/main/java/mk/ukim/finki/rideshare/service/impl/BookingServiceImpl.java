@@ -13,8 +13,6 @@ import mk.ukim.finki.rideshare.service.RideService;
 import mk.ukim.finki.rideshare.service.helper.AuthHelperService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @AllArgsConstructor
 public class BookingServiceImpl implements BookingService {
@@ -69,10 +67,5 @@ public class BookingServiceImpl implements BookingService {
 
         booking.setStatus(newStatus);
         return bookingRepository.save(booking);
-    }
-
-    @Override
-    public List<Booking> getAllByRideAndStatus(Ride ride, BookingStatus bookingStatus) {
-        return bookingRepository.findAllByRideAndStatus(ride, bookingStatus);
     }
 }

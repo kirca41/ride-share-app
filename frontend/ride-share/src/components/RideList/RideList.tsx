@@ -71,6 +71,9 @@ export function RideList() {
                 alignItems: 'center',
                 gap: 1,
             }
-        }}>{renderedRides}</Box>
+        }}>
+            {renderedRides}
+            {renderedRides.length === 0 && 'No rides were found in the system for the given criteria.'}
+        </Box>
     </Box>
 }
