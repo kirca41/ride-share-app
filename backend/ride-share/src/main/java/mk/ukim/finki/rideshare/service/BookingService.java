@@ -8,7 +8,7 @@ public interface BookingService {
 
     Booking getById(Long bookingId);
 
-    Booking create(Long rideId);
+    Booking create(Long rideId, Integer seatsToBook);
 
     Boolean existsWithStatusApprovedAndRideAndUser(Ride ride, User user);
 

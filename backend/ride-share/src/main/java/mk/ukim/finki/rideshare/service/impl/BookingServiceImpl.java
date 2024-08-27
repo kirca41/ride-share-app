@@ -29,7 +29,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking create(Long rideId) {
+    public Booking create(Long rideId, Integer seatsToBook) {
         User activeUser = authHelperService.getActiveUser()
                 .orElseThrow(() -> new RuntimeException("You must be logged in to book")); // should also check Authority
         Ride ride = rideService.getById(rideId);
@@ -38,6 +38,7 @@ public class BookingServiceImpl implements BookingService {
             throw new RuntimeException("You have already booked a place for this ride");
         }
         Booking booking = new Booking(
+                seatsToBook,
                 getStatusAccordingToRideIsInstantBookingEnabled(ride),
                 activeUser,
                 ride

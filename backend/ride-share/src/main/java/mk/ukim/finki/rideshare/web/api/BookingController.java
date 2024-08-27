@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import mk.ukim.finki.rideshare.config.ApplicationConstants;
 import mk.ukim.finki.rideshare.service.BookingService;
 import mk.ukim.finki.rideshare.web.converter.BookingConverter;
+import mk.ukim.finki.rideshare.web.request.CreateBookingRequest;
 import mk.ukim.finki.rideshare.web.response.BookingResponse;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,10 +16,10 @@ public class BookingController {
     private final BookingService bookingService;
     private final BookingConverter bookingConverter;
 
-    @PostMapping("/ride/{rideId}")
-    public BookingResponse create(@PathVariable Long rideId) {
+    @PostMapping
+    public BookingResponse create(@RequestBody CreateBookingRequest createBookingRequest) {
         return bookingConverter.toResponse(
-                bookingService.create(rideId)
+                bookingService.create(createBookingRequest.rideId(), createBookingRequest.seatsToBook())
         );
     }
 
