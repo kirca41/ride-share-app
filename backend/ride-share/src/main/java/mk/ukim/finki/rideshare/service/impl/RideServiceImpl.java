@@ -1,6 +1,7 @@
 package mk.ukim.finki.rideshare.service.impl;
 
 import lombok.AllArgsConstructor;
+import mk.ukim.finki.rideshare.model.Booking;
 import mk.ukim.finki.rideshare.model.Ride;
 import mk.ukim.finki.rideshare.model.User;
 import mk.ukim.finki.rideshare.repository.RideRepository;
@@ -41,7 +42,7 @@ public class RideServiceImpl implements RideService {
 
     private Boolean hasRideEnoughSeatsLeft(Ride ride, Integer seats) {
         return ride.getCapacity() -
-                bookingRideManagingService.getAllByRideAndStatusApproved(ride).size() >= seats;
+                bookingRideManagingService.getAllByRideAndStatusApproved(ride).stream().mapToInt(Booking::getSeatsBooked).sum() >= seats;
     }
 
     @Override

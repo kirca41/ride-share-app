@@ -1,6 +1,7 @@
 package mk.ukim.finki.rideshare.web.converter;
 
 import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.rideshare.model.Booking;
 import mk.ukim.finki.rideshare.model.Ride;
 import mk.ukim.finki.rideshare.service.BookingRideManagingService;
 import mk.ukim.finki.rideshare.web.response.RideResponse;
@@ -30,7 +31,7 @@ public class RideConverter {
                 ride.getPrice(),
                 ride.getHasLuggageSpace(),
                 ride.getCapacity(),
-                ride.getCapacity() - bookingRideManagingService.getAllByRideAndStatusApproved(ride).size(),
+                ride.getCapacity() - bookingRideManagingService.getAllByRideAndStatusApproved(ride).stream().mapToInt(Booking::getSeatsBooked).sum(),
                 ride.getIsInstantBookingEnabled(),
                 "%s %s".formatted(ride.getProvider().getFirstName(), ride.getProvider().getLastName())
         );

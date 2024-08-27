@@ -45,10 +45,11 @@ create table booking_status (
 );
 
 create table booking (
-    id        bigserial primary key,
-    status_id bigint references booking_status (id),
-    booked_by bigint references ride_share_user (id),
-    ride_id   bigint references ride (id)
+    id           bigserial primary key,
+    seats_booked integer,
+    status_id    bigint references booking_status (id),
+    booked_by    bigint references ride_share_user (id),
+    ride_id      bigint references ride (id)
 );
 
 create table rating (

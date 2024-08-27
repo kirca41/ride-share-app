@@ -15,6 +15,9 @@ import mk.ukim.finki.rideshare.model.base.BaseEntity;
 @Table(name = "booking")
 public class Booking extends BaseEntity {
 
+    @Column(name = "seats_booked")
+    private Integer seatsBooked;
+
     @ManyToOne
     @JoinColumn(name = "status_id")
     private BookingStatus status;
