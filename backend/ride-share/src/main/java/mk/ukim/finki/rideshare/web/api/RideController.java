@@ -27,6 +27,11 @@ public class RideController {
         return rideService.search(origin, destination, date, seats).stream().map(rideConverter::toResponse).toList();
     }
 
+    @GetMapping("/{id}")
+    public RideResponse getById(@PathVariable Long id) {
+        return rideConverter.toResponse(rideService.getById(id));
+    }
+
     @PostMapping
     public RideResponse create(@RequestBody CreateRideRequest createRideRequest) {
         Ride ride = rideService.create(

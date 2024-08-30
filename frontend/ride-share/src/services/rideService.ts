@@ -3,7 +3,7 @@ import { RideResponse } from "../interfaces/response/RideResponse";
 
 const path = 'rides';
 
-export const search = async (origin?: string, destination?: string, date?: string, seats?: number) => {
+const search = async (origin?: string, destination?: string, date?: string, seats?: number) => {
     return axiosConfig.get<RideResponse[]>(path, {
         params: {
             origin,
@@ -13,3 +13,9 @@ export const search = async (origin?: string, destination?: string, date?: strin
         }
     });
 }
+
+const getById = async(id: number) => {
+    return axiosConfig.get<RideResponse>(`${path}/${id}`);
+}
+
+export { search, getById };

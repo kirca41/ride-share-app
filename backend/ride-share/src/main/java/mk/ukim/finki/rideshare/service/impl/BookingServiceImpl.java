@@ -34,9 +34,14 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new RuntimeException("You must be logged in to book")); // should also check Authority
         Ride ride = rideService.getById(rideId);
         // Should I check for any kind of status so as not to let the user book again after being declined?
+        if (isBookerEqualToRideProvider(activeUser, ride)) {
+            throw new RuntimeException("You cannot book a ride with yourself as a provider");
+        }
+
         if (existsWithStatusApprovedAndRideAndUser(ride, activeUser)) {
             throw new RuntimeException("You have already booked a place for this ride");
         }
+
         Booking booking = new Booking(
                 seatsToBook,
                 getStatusAccordingToRideIsInstantBookingEnabled(ride),
@@ -45,6 +50,10 @@ public class BookingServiceImpl implements BookingService {
         );
 
         return bookingRepository.save(booking);
+    }
+
+    private Boolean isBookerEqualToRideProvider(User booker, Ride ride) {
+        return booker.equals(ride.getProvider());
     }
 
     private BookingStatus getStatusAccordingToRideIsInstantBookingEnabled(Ride ride) {

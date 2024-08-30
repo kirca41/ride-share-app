@@ -8,8 +8,9 @@ import { useState } from "react";
 import { RideResponse } from "../../interfaces/response/RideResponse";
 import { search } from "../../services/rideService";
 import SearchRidesForm from "../SearchRidesForm/SearchRidesForm";
+import { Link } from 'react-router-dom';
 
-export function RideList() {
+const RideList: React.FC = () => {
 
     const [rides, setRides] = useState<RideResponse[]>([]);
 
@@ -24,7 +25,7 @@ export function RideList() {
         const hasLuggageSpaceChip = ride.hasLuggageSpace ? <Chip icon={<LuggageIcon />} label="Has Luggage Space" /> : '';
 
         return (
-            <Card sx={{ maxWidth: '100vw', height: 'fit-content' }}>
+            <Card sx={{ maxWidth: '100vw', height: 'fit-content' }} key={ride.id}>
                 <CardContent>
                     <Typography variant="h5" component="div" display="flex" alignItems="center">
                         {ride.origin} <ArrowForwardIcon /> {ride.destination}
@@ -53,8 +54,8 @@ export function RideList() {
                 <Divider />
                 <CardActions>
                     <Button variant="contained" size="small" startIcon={<ChatBubbleIcon />}>Send Message</Button>
-                    {ride.isInstantBookingEnabled && <Button variant="contained" size="small" color="success">Book</Button>}
-                    {!ride.isInstantBookingEnabled && <Button variant="contained" size="small" color="success">Request</Button>}
+                    {ride.isInstantBookingEnabled && <Link to={`book/${ride.id}`}><Button variant="contained" size="small" color="success">Book</Button></Link>}
+                    {!ride.isInstantBookingEnabled && <Link to={`book/${ride.id}`}><Button variant="contained" size="small" color="success">Request</Button></Link>}
                     <Box component="div" display="flex" justifyContent="flex-end" flexGrow={1}>
                         <Button variant="text">{ride.providerFullName}</Button>
                     </Box>
@@ -77,3 +78,5 @@ export function RideList() {
         </Box>
     </Box>
 }
+
+export default RideList;
