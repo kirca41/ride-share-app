@@ -10,7 +10,7 @@ const router = createBrowserRouter([
     element: <RideList />
   },
   {
-    path: '/book/:rideId',
+    path: '/book-ride/:rideId',
     element: <CreateBooking />
   },
   {

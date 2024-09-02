@@ -25,7 +25,7 @@ const RideList: React.FC = () => {
         const hasLuggageSpaceChip = ride.hasLuggageSpace ? <Chip icon={<LuggageIcon />} label="Has Luggage Space" /> : '';
 
         return (
-            <Card sx={{ maxWidth: '100vw', height: 'fit-content' }} key={ride.id}>
+            <Card variant="outlined" sx={{ maxWidth: '100vw', height: 'fit-content' }} key={ride.id}>
                 <CardContent>
                     <Typography variant="h5" component="div" display="flex" alignItems="center">
                         {ride.origin} <ArrowForwardIcon /> {ride.destination}
@@ -54,8 +54,8 @@ const RideList: React.FC = () => {
                 <Divider />
                 <CardActions>
                     <Button variant="contained" size="small" startIcon={<ChatBubbleIcon />}>Send Message</Button>
-                    {ride.isInstantBookingEnabled && <Link to={`book/${ride.id}`}><Button variant="contained" size="small" color="success">Book</Button></Link>}
-                    {!ride.isInstantBookingEnabled && <Link to={`book/${ride.id}`}><Button variant="contained" size="small" color="success">Request</Button></Link>}
+                    {ride.isInstantBookingEnabled && <Link to={`book-ride/${ride.id}`}><Button variant="contained" size="small" color="success">Book</Button></Link>}
+                    {!ride.isInstantBookingEnabled && <Link to={`book-ride/${ride.id}`}><Button variant="contained" size="small" color="success">Request</Button></Link>}
                     <Box component="div" display="flex" justifyContent="flex-end" flexGrow={1}>
                         <Button variant="text">{ride.providerFullName}</Button>
                     </Box>

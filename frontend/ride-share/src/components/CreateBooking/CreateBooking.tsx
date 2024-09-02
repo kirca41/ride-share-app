@@ -47,10 +47,19 @@ const CreateBooking: React.FC = () => {
         }
     }
 
+    const submitButtonLabel = ride?.isInstantBookingEnabled ? 'Book' : 'Request';
+    const bookingRequestDisclaimer = !ride?.isInstantBookingEnabled ? 
+        `Submitting this form will not instanly confirm your seats on the selected ride. 
+        Instead, your requested will be reviewed by the provider after which
+        you will receive an email with the outcome of your request.`
+        : '';
+
     return <Box sx={{
         '@media (min-width: 600px)': {
             display: "flex",
-            justifyContent: "center"
+            justifyContent: "center",
+            width: "60%",
+            margin: "0 auto"
         }
     }}>
         {ride && <Card>
@@ -98,10 +107,13 @@ const CreateBooking: React.FC = () => {
                     />
                 </Box>
             </CardContent>
-            <CardActions>
+            <CardActions sx={{ flexDirection: "column" }}>
                 <Button size="small" variant="contained" color="success" fullWidth onClick={onBookClick}>
-                    Book
+                    {submitButtonLabel}
                 </Button>
+                <Typography variant="subtitle2" style={{ fontStyle: 'italic' }}>
+                    {bookingRequestDisclaimer}
+                </Typography>
             </CardActions>
         </Card>}
     </Box>
