@@ -3,6 +3,7 @@ import Login from "../Login/Login";
 import Register from "../Register/Register";
 import RideList from "../RideList/RideList";
 import CreateBooking from "../CreateBooking/CreateBooking";
+import { SnackbarProvider } from 'notistack';
 
 const router = createBrowserRouter([
   {
@@ -26,7 +27,9 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <RouterProvider router={router} />
+    <SnackbarProvider>
+      <RouterProvider router={router} />
+    </SnackbarProvider>
   );
 }
 

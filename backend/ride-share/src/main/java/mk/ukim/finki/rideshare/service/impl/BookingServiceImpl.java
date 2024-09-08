@@ -10,6 +10,7 @@ import mk.ukim.finki.rideshare.repository.BookingRepository;
 import mk.ukim.finki.rideshare.service.BookingService;
 import mk.ukim.finki.rideshare.service.BookingStatusService;
 import mk.ukim.finki.rideshare.service.RideService;
+import mk.ukim.finki.rideshare.service.RideShareServerException;
 import mk.ukim.finki.rideshare.service.helper.AuthHelperService;
 import org.springframework.stereotype.Service;
 
@@ -31,15 +32,15 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking create(Long rideId, Integer seatsToBook) {
         User activeUser = authHelperService.getActiveUser()
-                .orElseThrow(() -> new RuntimeException("You must be logged in to book")); // should also check Authority
+                .orElseThrow(() -> new RideShareServerException("You must be logged in to book")); // should also check Authority
         Ride ride = rideService.getById(rideId);
         // Should I check for any kind of status so as not to let the user book again after being declined?
         if (isBookerEqualToRideProvider(activeUser, ride)) {
-            throw new RuntimeException("You cannot book a ride with yourself as a provider");
+            throw new RideShareServerException("You cannot book a ride with yourself as a provider");
         }
 
-        if (existsWithStatusApprovedAndRideAndUser(ride, activeUser)) {
-            throw new RuntimeException("You have already booked a place for this ride");
+        if (existsByRideAndUser(ride, activeUser)) {
+            throw new RideShareServerException("You have already booked/requested a place for this ride");
         }
 
         Booking booking = new Booking(
@@ -65,8 +66,8 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Boolean existsWithStatusApprovedAndRideAndUser(Ride ride, User user) {
-        BookingStatus bookingStatus = bookingStatusService.findByName(ApplicationConstants.BOOKING_STATUS_APPROVED);
+    public Boolean existsByRideAndUser(Ride ride, User user) {
+        BookingStatus bookingStatus = getStatusAccordingToRideIsInstantBookingEnabled(ride);
         return bookingRepository.existsByStatusAndRideAndBookedBy(bookingStatus, ride, user);
     }
 

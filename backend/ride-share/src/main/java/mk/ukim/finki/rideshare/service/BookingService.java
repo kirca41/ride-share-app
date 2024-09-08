@@ -10,7 +10,7 @@ public interface BookingService {
 
     Booking create(Long rideId, Integer seatsToBook);
 
-    Boolean existsWithStatusApprovedAndRideAndUser(Ride ride, User user);
+    Boolean existsByRideAndUser(Ride ride, User user);
 
     Booking updateStatus(Long bookingId, String newStatusName);
 }
