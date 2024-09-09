@@ -1,6 +1,6 @@
 package mk.ukim.finki.rideshare.web.request;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 public record CreateRideRequest(
         String origin,
@@ -10,7 +10,7 @@ public record CreateRideRequest(
         Double destinationLatitude,
         Double destinationLongitude,
         Boolean isDoorToDoor,
-        ZonedDateTime departureTime,
+        LocalDateTime departureTime,
         Boolean isDepartureTimeFlexible,
         Double price,
         Boolean hasLuggageSpace,

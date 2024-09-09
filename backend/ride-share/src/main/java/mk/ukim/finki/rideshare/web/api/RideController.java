@@ -9,6 +9,7 @@ import mk.ukim.finki.rideshare.web.response.RideResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 @RestController
@@ -42,7 +43,7 @@ public class RideController {
                 createRideRequest.destinationLatitude(),
                 createRideRequest.destinationLongitude(),
                 createRideRequest.isDoorToDoor(),
-                createRideRequest.departureTime(),
+                createRideRequest.departureTime().atZone(ZoneId.systemDefault()),
                 createRideRequest.isDepartureTimeFlexible(),
                 createRideRequest.price(),
                 createRideRequest.hasLuggageSpace(),

@@ -1,4 +1,5 @@
 import axiosConfig from "../config/axiosConfig";
+import { CreateRideRequest } from "../interfaces/request/CreateRideRequest";
 import { RideResponse } from "../interfaces/response/RideResponse";
 
 const path = 'rides';
@@ -14,8 +15,12 @@ const search = async (origin?: string, destination?: string, date?: string, seat
     });
 }
 
-const getById = async(id: number) => {
+const getById = async (id: number) => {
     return axiosConfig.get<RideResponse>(`${path}/${id}`);
 }
 
-export { search, getById };
+const create = async (request: CreateRideRequest) => {
+    return axiosConfig.post(path, request);
+}
+
+export { search, getById, create };
