@@ -10,6 +10,8 @@ public interface RideService {
 
     List<Ride> search(String origin, String destination, LocalDate date, Integer seats);
 
+    List<Ride> getAllForActiveUser(Boolean includePast);
+
     Ride getById(Long id);
 
     Ride create(String origin,

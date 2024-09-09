@@ -5,6 +5,7 @@ import RideList from "../RideList/RideList";
 import CreateBooking from "../CreateBooking/CreateBooking";
 import { SnackbarProvider } from 'notistack';
 import PublishRide from "../PublishRide/PublishRide";
+import MyRides from "../MyRides/MyRides";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: '/book-ride/:rideId',
     element: <CreateBooking />
+  },
+  {
+    path: '/my-rides',
+    element: <MyRides />
   },
   {
     path: '/login',

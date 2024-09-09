@@ -20,12 +20,19 @@ public class RideController {
     private final RideService rideService;
     private final RideConverter rideConverter;
 
-    @GetMapping
+    @GetMapping("/search")
     public List<RideResponse> search(@RequestParam(required = false) String origin,
                                      @RequestParam(required = false) String destination,
                                      @RequestParam(required = false) LocalDate date,
                                      @RequestParam(required = false) Integer seats) {
         return rideService.search(origin, destination, date, seats).stream().map(rideConverter::toResponse).toList();
+    }
+
+    @GetMapping
+    public List<RideResponse> getAllForActiveUser(@RequestParam(required = false, defaultValue = "false") Boolean includePast) {
+        return rideService.getAllForActiveUser(includePast)
+                .stream().map(rideConverter::toResponse)
+                .toList();
     }
 
     @GetMapping("/{id}")

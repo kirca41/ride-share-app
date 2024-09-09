@@ -8,6 +8,7 @@ import mk.ukim.finki.rideshare.repository.RideRepository;
 import mk.ukim.finki.rideshare.repository.specification.RideSpecification;
 import mk.ukim.finki.rideshare.service.BookingRideManagingService;
 import mk.ukim.finki.rideshare.service.RideService;
+import mk.ukim.finki.rideshare.service.RideShareServerException;
 import mk.ukim.finki.rideshare.service.helper.AuthHelperService;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +41,17 @@ public class RideServiceImpl implements RideService {
                 .toList();
     }
 
+    @Override
+    public List<Ride> getAllForActiveUser(Boolean includePast) {
+        User activeUser = authHelperService.getActiveUser()
+                .orElseThrow(() -> new RideShareServerException("User not found"));
+
+        return rideRepository.findAll(RideSpecification.providerEqualsAndDepartureTimeGreaterThan(
+                activeUser,
+                includePast ? null : LocalDate.now()
+        ));
+    }
+
     private Boolean hasRideEnoughSeatsLeft(Ride ride, Integer seats) {
         return ride.getCapacity() -
                 bookingRideManagingService.getAllByRideAndStatusApproved(ride).stream().mapToInt(Booking::getSeatsBooked).sum() >= seats;
@@ -66,7 +78,7 @@ public class RideServiceImpl implements RideService {
                        Integer capacity,
                        Boolean isInstantBookingEnabled) {
         User activeUser = authHelperService.getActiveUser()
-                .orElseThrow(() -> new RuntimeException("You must be logged in to publish a new ride")); // Should also check Authority
+                .orElseThrow(() -> new RideShareServerException("You must be logged in to publish a new ride")); // Should also check Authority
         Ride ride = new Ride(
                 origin,
                 originLatitude,

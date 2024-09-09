@@ -37,6 +37,18 @@ public class SpecificationFactory {
         };
     }
 
+    public static <T> Specification<T> dateGreaterThan(String path, LocalDate date, ZoneId zoneId) {
+        return (root, query, criteriaBuilder) -> {
+            if (date == null) {
+                return criteriaBuilder.conjunction();
+            }
+
+            ZonedDateTime referenceDate = date.atStartOfDay(zoneId);
+
+            return criteriaBuilder.greaterThan(root.get(path), referenceDate);
+        };
+    }
+
     public static <T> Specification<T> like(String path, String value) {
         return (root, query, criteriaBuilder) -> {
             if (value == null) {

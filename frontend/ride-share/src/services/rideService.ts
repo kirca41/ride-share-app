@@ -5,13 +5,19 @@ import { RideResponse } from "../interfaces/response/RideResponse";
 const path = 'rides';
 
 const search = async (origin?: string, destination?: string, date?: string, seats?: number) => {
-    return axiosConfig.get<RideResponse[]>(path, {
+    return axiosConfig.get<RideResponse[]>(`${path}/search`, {
         params: {
             origin,
             destination,
             date,
             seats
         }
+    });
+}
+
+const getAllForActiveUser = async (includePast: boolean) => {
+    return axiosConfig.get<RideResponse[]>(path, {
+        params: { includePast }
     });
 }
 
@@ -23,4 +29,4 @@ const create = async (request: CreateRideRequest) => {
     return axiosConfig.post(path, request);
 }
 
-export { search, getById, create };
+export { search, getAllForActiveUser, getById, create };
