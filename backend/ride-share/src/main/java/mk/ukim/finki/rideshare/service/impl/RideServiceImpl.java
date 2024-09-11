@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -49,7 +50,9 @@ public class RideServiceImpl implements RideService {
         return rideRepository.findAll(RideSpecification.providerEqualsAndDepartureTimeGreaterThan(
                 activeUser,
                 includePast ? null : LocalDate.now()
-        ));
+        ))
+                .stream().sorted(Comparator.comparing(Ride::getDepartureDateTime, Comparator.reverseOrder()))
+                .toList();
     }
 
     private Boolean hasRideEnoughSeatsLeft(Ride ride, Integer seats) {

@@ -1,8 +1,9 @@
-import { Box, Checkbox, FormControlLabel } from "@mui/material";
+import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { RideResponse } from "../../interfaces/response/RideResponse";
 import { getAllForActiveUser } from "../../services/rideService";
 import RideListItem from "../RideListItem/RideListItem";
+import { Link } from "react-router-dom";
 
 const MyRides: React.FC = () => {
 
@@ -21,6 +22,13 @@ const MyRides: React.FC = () => {
     const renderedRides = rides.map(ride => {
         return <RideListItem ride={ride} isMyRidesView />
     });
+
+    let noPublishedRidesYet;
+    if (renderedRides.length === 0) {
+        noPublishedRidesYet = <Typography component="div" variant="body1">
+            You have no published rides yet. To publish you rist ride click <Link to="/publish-ride" style={{ textDecoration: "none", color: "#1976d2" }}>here</Link>.
+        </Typography>
+    }
 
     return <Box component="div" display="flex" flexDirection="column" gap={3} sx={{ maxWidth: '100vw', padding: '2%' }}>
         <FormControlLabel
@@ -41,7 +49,7 @@ const MyRides: React.FC = () => {
             }
         }}>
             {renderedRides}
-            {renderedRides.length === 0 && 'You have no past rides yet.'}
+            {noPublishedRidesYet}
         </Box>
     </Box>
 }
