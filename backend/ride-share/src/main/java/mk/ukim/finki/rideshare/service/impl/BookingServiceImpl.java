@@ -10,9 +10,12 @@ import mk.ukim.finki.rideshare.repository.BookingRepository;
 import mk.ukim.finki.rideshare.service.BookingService;
 import mk.ukim.finki.rideshare.service.BookingStatusService;
 import mk.ukim.finki.rideshare.service.RideService;
-import mk.ukim.finki.rideshare.service.RideShareServerException;
+import mk.ukim.finki.rideshare.service.exception.RideShareServerException;
 import mk.ukim.finki.rideshare.service.helper.AuthHelperService;
+import mk.ukim.finki.rideshare.service.validator.BookingValidator;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -22,6 +25,7 @@ public class BookingServiceImpl implements BookingService {
     private final AuthHelperService authHelperService;
     private final RideService rideService;
     private final BookingStatusService bookingStatusService;
+    private final BookingValidator bookingValidator;
 
     @Override
     public Booking getById(Long bookingId) {
@@ -35,13 +39,7 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new RideShareServerException("You must be logged in to book")); // should also check Authority
         Ride ride = rideService.getById(rideId);
         // Should I check for any kind of status so as not to let the user book again after being declined?
-        if (isBookerEqualToRideProvider(activeUser, ride)) {
-            throw new RideShareServerException("You cannot book a ride with yourself as a provider");
-        }
-
-        if (existsByRideAndUser(ride, activeUser)) {
-            throw new RideShareServerException("You have already booked/requested a place for this ride");
-        }
+        bookingValidator.validateCanCreateBooking(activeUser, ride, getNumberOfSeatsBookedForRide(ride), seatsToBook, existsByRideAndUser(ride, activeUser));
 
         Booking booking = new Booking(
                 seatsToBook,
@@ -53,8 +51,11 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepository.save(booking);
     }
 
-    private Boolean isBookerEqualToRideProvider(User booker, Ride ride) {
-        return booker.equals(ride.getProvider());
+    private Integer getNumberOfSeatsBookedForRide(Ride ride) {
+        return bookingRepository.findAllByRideAndStatus(ride, bookingStatusService.findByName(ApplicationConstants.BOOKING_STATUS_APPROVED))
+                .stream()
+                .mapToInt(Booking::getSeatsBooked)
+                .sum();
     }
 
     private BookingStatus getStatusAccordingToRideIsInstantBookingEnabled(Ride ride) {
@@ -78,5 +79,10 @@ public class BookingServiceImpl implements BookingService {
 
         booking.setStatus(newStatus);
         return bookingRepository.save(booking);
+    }
+
+    @Override
+    public List<Booking> getAllForRide(Long rideId) {
+        return bookingRepository.findAllByRideOrderByStatus(rideService.getById(rideId));
     }
 }

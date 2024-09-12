@@ -20,7 +20,7 @@ const MyRides: React.FC = () => {
     }
 
     const renderedRides = rides.map(ride => {
-        return <RideListItem ride={ride} isMyRidesView />
+        return <RideListItem key={ride.id} ride={ride} isMyRidesView />
     });
 
     let noPublishedRidesYet;

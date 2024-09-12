@@ -1,6 +1,6 @@
 package mk.ukim.finki.rideshare.web.exception_handler;
 
-import mk.ukim.finki.rideshare.service.RideShareServerException;
+import mk.ukim.finki.rideshare.service.exception.RideShareServerException;
 import mk.ukim.finki.rideshare.web.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

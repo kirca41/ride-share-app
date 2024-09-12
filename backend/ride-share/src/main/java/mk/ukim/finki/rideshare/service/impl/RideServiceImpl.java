@@ -8,7 +8,7 @@ import mk.ukim.finki.rideshare.repository.RideRepository;
 import mk.ukim.finki.rideshare.repository.specification.RideSpecification;
 import mk.ukim.finki.rideshare.service.BookingRideManagingService;
 import mk.ukim.finki.rideshare.service.RideService;
-import mk.ukim.finki.rideshare.service.RideShareServerException;
+import mk.ukim.finki.rideshare.service.exception.RideShareServerException;
 import mk.ukim.finki.rideshare.service.helper.AuthHelperService;
 import org.springframework.stereotype.Service;
 

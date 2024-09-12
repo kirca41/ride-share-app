@@ -43,14 +43,14 @@ const RideListItem = ({ ride, isMyRidesView }: { ride: RideResponse, isMyRidesVi
             <Divider />
             {!isMyRidesView && <CardActions>
                 <Button variant="contained" size="small" startIcon={<ChatBubbleIcon />}>Send Message</Button>
-                {ride.isInstantBookingEnabled && <Link to={`book-ride/${ride.id}`}><Button variant="contained" size="small" color="success">Book</Button></Link>}
-                {!ride.isInstantBookingEnabled && <Link to={`book-ride/${ride.id}`}><Button variant="contained" size="small" color="success">Request</Button></Link>}
+                {ride.isInstantBookingEnabled && <Link to={`/book-ride/${ride.id}`}><Button variant="contained" size="small" color="success">Book</Button></Link>}
+                {!ride.isInstantBookingEnabled && <Link to={`/book-ride/${ride.id}`}><Button variant="contained" size="small" color="success">Request</Button></Link>}
                 <Box component="div" display="flex" justifyContent="flex-end" flexGrow={1}>
                     <Button variant="text">{ride.providerFullName}</Button>
                 </Box>
             </CardActions>}
             {isMyRidesView && <CardActions>
-                <Link to={`rides/${ride.id}/bookings`}><Button variant="contained" size="small" color="success">View bookings</Button></Link>
+                <Link to={`/rides/${ride.id}/bookings`}><Button variant="contained" size="small" color="success">View bookings</Button></Link>
             </CardActions>}
         </Card>
     );

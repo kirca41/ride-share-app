@@ -8,6 +8,8 @@ import mk.ukim.finki.rideshare.web.request.CreateBookingRequest;
 import mk.ukim.finki.rideshare.web.response.BookingResponse;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/bookings")
 @AllArgsConstructor
@@ -42,5 +44,12 @@ public class BookingController {
         return bookingConverter.toResponse(
                 bookingService.updateStatus(id, ApplicationConstants.BOOKING_STATUS_DECLINED)
         );
+    }
+
+    @GetMapping("/rides/{rideId}")
+    public List<BookingResponse> getAllForRide(@PathVariable Long rideId) {
+        return bookingService.getAllForRide(rideId)
+                .stream().map(bookingConverter::toResponse)
+                .toList();
     }
 }

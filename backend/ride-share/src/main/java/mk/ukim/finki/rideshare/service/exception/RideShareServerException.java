@@ -1,4 +1,4 @@
-package mk.ukim.finki.rideshare.service;
+package mk.ukim.finki.rideshare.service.exception;
 
 public class RideShareServerException extends RuntimeException {
 

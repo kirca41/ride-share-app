@@ -6,11 +6,22 @@ import CreateBooking from "../CreateBooking/CreateBooking";
 import { SnackbarProvider } from 'notistack';
 import PublishRide from "../PublishRide/PublishRide";
 import MyRides from "../MyRides/MyRides";
+import Bookings from "../BookingRequests/Bookings";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <RideList />
+  },
+  {
+    path: '/rides',
+    element: <RideList />
+  },
+  {
+    path: '/rides/:rideId/bookings',
+    element: <Bookings />
   },
   {
     path: '/publish-ride',
@@ -34,11 +45,15 @@ const router = createBrowserRouter([
   }
 ]);
 
+const theme = createTheme();
 
 function App() {
   return (
     <SnackbarProvider>
-      <RouterProvider router={router} />
+      <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </SnackbarProvider>
   );
 }

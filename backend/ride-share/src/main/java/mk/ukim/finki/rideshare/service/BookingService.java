@@ -4,6 +4,8 @@ import mk.ukim.finki.rideshare.model.Booking;
 import mk.ukim.finki.rideshare.model.Ride;
 import mk.ukim.finki.rideshare.model.User;
 
+import java.util.List;
+
 public interface BookingService {
 
     Booking getById(Long bookingId);
@@ -13,4 +15,6 @@ public interface BookingService {
     Boolean existsByRideAndUser(Ride ride, User user);
 
     Booking updateStatus(Long bookingId, String newStatusName);
+
+    List<Booking> getAllForRide(Long rideId);
 }
