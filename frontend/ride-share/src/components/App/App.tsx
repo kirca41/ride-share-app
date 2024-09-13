@@ -50,7 +50,13 @@ const router = createBrowserRouter([
   }
 ]);
 
-const theme = createTheme();
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: '#979797'
+    }
+  },
+});
 
 function App() {
   return (

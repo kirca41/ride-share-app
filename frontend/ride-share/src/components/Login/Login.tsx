@@ -14,7 +14,7 @@ import {
     Typography
 } from '@mui/material';
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserLogin } from '../../interfaces/UserLogin';
 import { login } from '../../services/authService';
 
@@ -127,6 +127,18 @@ const Login: React.FC = () => {
                             >
                                 Login
                             </Button>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Link to='/register' style={{ textDecoration: 'none', color: 'black' }}>
+                                <Button
+                                    type="button"
+                                    variant="contained"
+                                    color="secondary"
+                                    fullWidth
+                                >
+                                    Register
+                                </Button>
+                            </Link>
                         </Grid>
                     </Grid>
                 </form>

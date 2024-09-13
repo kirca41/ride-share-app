@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { register } from '../../services/authService';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserRegister } from '../../interfaces/UserRegister';
 
 interface FormErrors {
@@ -224,6 +224,18 @@ const Register: React.FC = () => {
                             >
                                 Register
                             </Button>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Link to='/login' style={{ textDecoration: 'none', color: 'black' }}>
+                                <Button
+                                    type="button"
+                                    variant="contained"
+                                    color="secondary"
+                                    fullWidth
+                                >
+                                    Login
+                                </Button>
+                            </Link>
                         </Grid>
                     </Grid>
                 </form>
