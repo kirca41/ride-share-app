@@ -6,9 +6,10 @@ import CreateBooking from "../CreateBooking/CreateBooking";
 import { SnackbarProvider } from 'notistack';
 import PublishRide from "../PublishRide/PublishRide";
 import MyRides from "../MyRides/MyRides";
-import Bookings from "../BookingRequests/Bookings";
+import RideBookingsList from "../RideBookingsList/RideBookingsList";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
+import MyBookings from "../MyBookings/MyBookings";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +22,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/rides/:rideId/bookings',
-    element: <Bookings />
+    element: <RideBookingsList />
+  },
+  {
+    path: '/my-bookings',
+    element: <MyBookings />
   },
   {
     path: '/publish-ride',

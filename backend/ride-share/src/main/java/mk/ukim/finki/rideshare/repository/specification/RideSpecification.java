@@ -12,7 +12,6 @@ public class RideSpecification {
 
     private static final String RIDE_ORIGIN_FIELD = "origin";
     private static final String RIDE_DESTINATION_FIELD = "destination";
-
     private static final String RIDE_DEPARTURE_DATE_TIME = "departureDateTime";
     private static final String RIDE_PROVIDER = "provider";
 

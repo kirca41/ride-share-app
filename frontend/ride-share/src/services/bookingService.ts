@@ -12,6 +12,12 @@ const getAllForRide = async (rideId: number) => {
     return axiosConfig.get<BookingResponse[]>(`${path}/rides/${rideId}`);
 }
 
+const getAllForActiveUser = async (includePast: boolean) => {
+    return axiosConfig.get<BookingResponse[]>(path, {
+        params: { includePast }
+    });
+}
+
 const approve = async (id: number) => {
     return axiosConfig.put<BookingResponse>(`${path}/${id}/approve`);
 }
@@ -20,4 +26,4 @@ const decline = async (id: number) => {
     return axiosConfig.put<BookingResponse>(`${path}/${id}/decline`);
 }
 
-export { createBooking, getAllForRide, approve, decline };
+export { createBooking, getAllForRide, getAllForActiveUser, approve, decline };

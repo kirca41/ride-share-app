@@ -6,6 +6,8 @@ import mk.ukim.finki.rideshare.web.response.BookingResponse;
 import mk.ukim.finki.rideshare.web.response.RideResponse;
 import org.springframework.stereotype.Component;
 
+import java.time.format.DateTimeFormatter;
+
 @RequiredArgsConstructor
 @Component
 public class BookingConverter {
@@ -17,6 +19,8 @@ public class BookingConverter {
 
         return new BookingResponse(
                 booking.getId(),
+                booking.getBookedAt().toLocalDate().format(DateTimeFormatter.ISO_LOCAL_DATE),
+                booking.getBookedAt().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")),
                 booking.getStatus().getName(),
                 booking.getStatus().getPrettyName(),
                 booking.getBookedBy().getId(),

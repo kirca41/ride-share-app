@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import mk.ukim.finki.rideshare.model.base.BaseEntity;
 
+import java.time.ZonedDateTime;
+
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -17,6 +19,9 @@ public class Booking extends BaseEntity {
 
     @Column(name = "seats_booked")
     private Integer seatsBooked;
+
+    @Column(name = "booked_at")
+    private ZonedDateTime bookedAt;
 
     @ManyToOne
     @JoinColumn(name = "status_id")

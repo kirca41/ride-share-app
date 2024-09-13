@@ -1,14 +1,25 @@
 package mk.ukim.finki.rideshare.service.validator;
 
+import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.rideshare.config.ApplicationConstants;
+import mk.ukim.finki.rideshare.model.Booking;
 import mk.ukim.finki.rideshare.model.Ride;
 import mk.ukim.finki.rideshare.model.User;
+import mk.ukim.finki.rideshare.repository.BookingRepository;
+import mk.ukim.finki.rideshare.service.BookingStatusService;
 import mk.ukim.finki.rideshare.service.exception.RideShareServerException;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class BookingValidator {
 
-    public void validateCanCreateBooking(User activeUser, Ride ride, Integer seatsBooked, Integer seatsToBook, Boolean existsByRideAndUser) {
+    private final BookingRepository bookingRepository;
+    private final BookingStatusService bookingStatusService;
+
+    public void validateCanCreateBooking(User activeUser, Ride ride, Integer seatsToBook, Boolean existsByRideAndUser) {
+        Integer seatsBooked = getNumberOfSeatsBookedForRide(ride);
+
         if (ride.getCapacity() < seatsBooked + seatsToBook)
             throw new RideShareServerException(String.format("There are %d seats left for this ride", ride.getCapacity() - seatsBooked));
 
@@ -23,5 +34,12 @@ public class BookingValidator {
 
     private Boolean isBookerEqualToRideProvider(User booker, Ride ride) {
         return booker.equals(ride.getProvider());
+    }
+
+    private Integer getNumberOfSeatsBookedForRide(Ride ride) {
+        return bookingRepository.findAllByRideAndStatus(ride, bookingStatusService.findByName(ApplicationConstants.BOOKING_STATUS_APPROVED))
+                .stream()
+                .mapToInt(Booking::getSeatsBooked)
+                .sum();
     }
 }

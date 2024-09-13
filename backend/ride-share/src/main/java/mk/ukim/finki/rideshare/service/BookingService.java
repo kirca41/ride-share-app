@@ -17,4 +17,6 @@ public interface BookingService {
     Booking updateStatus(Long bookingId, String newStatusName);
 
     List<Booking> getAllForRide(Long rideId);
+
+    List<Booking> getAllForActiveUser(Boolean includePast);
 }

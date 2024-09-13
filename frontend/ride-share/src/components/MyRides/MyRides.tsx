@@ -31,7 +31,7 @@ const MyRides: React.FC = () => {
     }
 
     return <Box component="div" display="flex" flexDirection="column" gap={3} sx={{ maxWidth: '100vw', padding: '2%' }}>
-        <FormControlLabel
+        <FormControlLabel sx={{ justifyContent: "flex-end" }}
             control={
                 <Checkbox
                     checked={includePast}

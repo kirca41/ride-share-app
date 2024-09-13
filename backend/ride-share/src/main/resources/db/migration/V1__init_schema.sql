@@ -47,6 +47,7 @@ create table booking_status (
 create table booking (
     id           bigserial primary key,
     seats_booked integer,
+    booked_at    timestamp with time zone default now(),
     status_id    bigint references booking_status (id),
     booked_by    bigint references ride_share_user (id),
     ride_id      bigint references ride (id)
