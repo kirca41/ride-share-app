@@ -14,6 +14,7 @@ import java.time.ZonedDateTime;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "ride")
 public class Ride extends BaseEntity {
 
     @Column(name = "origin")

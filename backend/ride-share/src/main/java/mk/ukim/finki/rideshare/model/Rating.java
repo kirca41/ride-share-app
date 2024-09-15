@@ -8,6 +8,7 @@ import mk.ukim.finki.rideshare.model.base.BaseEntity;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Table(name = "rating")
 public class Rating extends BaseEntity {
 
     @Column(name = "value")

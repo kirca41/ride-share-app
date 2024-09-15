@@ -18,7 +18,7 @@ const RideList: React.FC = () => {
         return <RideListItem key={ride.id} ride={ride} isMyRidesView={false} />
     });
 
-    return <Box component="div" display="flex" flexDirection="column" gap={3} sx={{ maxWidth: '100vw', overflow: 'hidden' }}>
+    return <Box component="div" display="flex" flexDirection="column" gap={3} sx={{ maxWidth: '100vw', overflow: 'hidden', padding: '2%' }}>
         <SearchRidesForm onSearchRidesFormSubmit={onSearchRidesFormSubmit} />
         <Box component="div" display="flex" gap={3} height="100vh" sx={{
             '@media (max-width: 600px)': {

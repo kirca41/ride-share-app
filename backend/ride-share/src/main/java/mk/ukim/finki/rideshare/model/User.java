@@ -68,7 +68,7 @@ public class User extends BaseEntity implements UserDetails {
         this.enabled = enabled;
     }
 
-    public User(String firstName, String lastName, String username, String password, String mobileNumber, Authority authority) {
+    public User(String firstName, String lastName, String username, String password, String mobileNumber, ZonedDateTime joinedOn, Authority authority) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -78,11 +78,16 @@ public class User extends BaseEntity implements UserDetails {
         this.accountNonLocked = true;
         this.credentialsNonExpired = true;
         this.enabled = true;
+        this.joinedOn = joinedOn;
         this.authority = authority;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(authority);
+    }
+
+    public String getFullName() {
+        return "%s %s".formatted(this.getFirstName(), this.getLastName());
     }
 }

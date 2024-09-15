@@ -5,13 +5,19 @@ import BoltIcon from '@mui/icons-material/Bolt';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import HomeIcon from '@mui/icons-material/Home';
 import LuggageIcon from '@mui/icons-material/Luggage';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { ChatService } from "../../services/chatService";
 
 const RideListItem = ({ ride, isMyRidesView }: { ride: RideResponse, isMyRidesView: boolean }) => {
     const isDoorToDoorChip = ride.isDoorToDoor ? <Chip icon={<HomeIcon />} label="Door-to-Door" /> : '';
     const isInstantBookingEnabledChip = ride.isInstantBookingEnabled ? <Chip icon={<BoltIcon />} label="Instant Booking Enabled" /> : '';
     const hasLuggageSpaceChip = ride.hasLuggageSpace ? <Chip icon={<LuggageIcon />} label="Has Luggage Space" /> : '';
+    const navigate = useNavigate();
 
+    const openChat = async (providerId: number) => {
+        const { data } = await ChatService.getOrCreate(providerId);
+        navigate(`/chat/${data.uuid}`);
+    }
 
     return (
         <Card variant="outlined" sx={{ maxWidth: '100vw', height: 'fit-content' }} key={ride.id}>
@@ -42,7 +48,7 @@ const RideListItem = ({ ride, isMyRidesView }: { ride: RideResponse, isMyRidesVi
             </CardContent>
             <Divider />
             {!isMyRidesView && <CardActions>
-                <Button variant="contained" size="small" startIcon={<ChatBubbleIcon />}>Send Message</Button>
+                <Button onClick={() => openChat(ride.providerId)} variant="contained" size="small" startIcon={<ChatBubbleIcon />}>Chat</Button>
                 {ride.isInstantBookingEnabled && <Link to={`/book-ride/${ride.id}`}><Button variant="contained" size="small" color="success">Book</Button></Link>}
                 {!ride.isInstantBookingEnabled && <Link to={`/book-ride/${ride.id}`}><Button variant="contained" size="small" color="success">Request</Button></Link>}
                 <Box component="div" display="flex" justifyContent="flex-end" flexGrow={1}>

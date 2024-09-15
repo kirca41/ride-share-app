@@ -17,6 +17,7 @@ public record RideResponse(
         Integer capacity,
         Integer seatsLeft,
         Boolean isInstantBookingEnabled,
+        Long providerId,
         String providerFullName
 ) {
 }

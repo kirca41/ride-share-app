@@ -1,6 +1,6 @@
 package mk.ukim.finki.rideshare.web.api;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.rideshare.model.Ride;
 import mk.ukim.finki.rideshare.service.RideService;
 import mk.ukim.finki.rideshare.web.converter.RideConverter;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/rides")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RideController {
 
     private final RideService rideService;

@@ -1,5 +1,6 @@
 import axiosConfig from "../config/axiosConfig";
 import { AuthenticationResponse } from "../interfaces/response/AuthenticationResponse";
+import { UserResponse } from "../interfaces/response/UserResponse";
 import { UserLogin } from "../interfaces/UserLogin";
 import { UserRegister } from "../interfaces/UserRegister";
 
@@ -13,4 +14,8 @@ export const register = async (userRegister: UserRegister) =>  {
 export const login = async (userLogin: UserLogin) => {
     const response = await axiosConfig.post(`${path}/login`, userLogin);
     return response.data as AuthenticationResponse;
+}
+
+export const getActiveUser = async () => {
+    return axiosConfig.get<UserResponse>(`${path}/active-user`);
 }

@@ -1,6 +1,6 @@
 package mk.ukim.finki.rideshare.web.api;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.rideshare.config.ApplicationConstants;
 import mk.ukim.finki.rideshare.model.Booking;
 import mk.ukim.finki.rideshare.service.BookingService;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/bookings")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BookingController {
 
     private final BookingService bookingService;

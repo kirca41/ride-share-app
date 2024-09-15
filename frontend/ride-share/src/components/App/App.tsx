@@ -10,6 +10,8 @@ import RideBookingsList from "../RideBookingsList/RideBookingsList";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import MyBookings from "../MyBookings/MyBookings";
+import Chat from "../Chat/Chat";
+import AuthProvider from "../../context/AuthProvider";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +43,10 @@ const router = createBrowserRouter([
     element: <MyRides />
   },
   {
+    path: '/chat/:chatUuid',
+    element: <Chat />
+  },
+  {
     path: '/login',
     element: <Login />
   },
@@ -63,7 +69,9 @@ function App() {
     <SnackbarProvider>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <RouterProvider router={router} />
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
       </ThemeProvider>
     </SnackbarProvider>
   );

@@ -7,27 +7,24 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import mk.ukim.finki.rideshare.model.base.BaseEntity;
 
-import java.time.ZonedDateTime;
+import java.util.UUID;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "message")
-public class Message extends BaseEntity {
+@Table(name = "chat")
+public class Chat extends BaseEntity {
 
-    @Column(name = "timestamp")
-    private ZonedDateTime timestamp;
-
-    @Column(name = "content")
-    private String content;
+    @Column(name = "uuid")
+    private UUID uuid;
 
     @ManyToOne
-    @JoinColumn(name = "chat_id")
-    private Chat chat;
+    @JoinColumn(name = "participant_1_id")
+    private User participant1;
 
     @ManyToOne
-    @JoinColumn(name = "sender_id")
-    private User sender;
+    @JoinColumn(name = "participant_2_id")
+    private User participant2;
 }

@@ -1,21 +1,26 @@
 package mk.ukim.finki.rideshare.web.api;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.rideshare.model.User;
 import mk.ukim.finki.rideshare.model.dto.AuthenticationDto;
 import mk.ukim.finki.rideshare.model.dto.UserLoginDto;
 import mk.ukim.finki.rideshare.model.dto.UserRegisterDto;
 import mk.ukim.finki.rideshare.service.auth.AuthenticationService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import mk.ukim.finki.rideshare.service.helper.AuthHelperService;
+import mk.ukim.finki.rideshare.web.converter.UserConverter;
+import mk.ukim.finki.rideshare.web.response.UserResponse;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/public/auth")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthenticationService authenticationService;
+    private final AuthHelperService authHelperService;
+    private final UserConverter userConverter;
 
     // Validate dtos
     @PostMapping("/register")
@@ -26,5 +31,12 @@ public class AuthController {
     @PostMapping("/login")
     public AuthenticationDto login(@RequestBody UserLoginDto userLoginDto) {
         return authenticationService.authenticate(userLoginDto);
+    }
+
+    @GetMapping("/active-user")
+    public UserResponse getActiveUser() {
+        Optional<User> activeUser = authHelperService.getActiveUser();
+
+        return activeUser.map(userConverter::toResponse).orElse(null);
     }
 }

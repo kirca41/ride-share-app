@@ -60,10 +60,17 @@ create table rating (
     rated_by bigint references ride_share_user (id)
 );
 
+create table chat (
+    id               bigserial primary key,
+    uuid             uuid,
+    participant_1_id bigint references ride_share_user (id),
+    participant_2_id bigint references ride_share_user (id)
+);
+
 create table message (
     id           bigserial primary key,
     timestamp    timestamp with time zone default now(),
     content      text not null,
-    recipient_id bigint references ride_share_user (id),
+    chat_id      bigint references chat (id),
     sender_id    bigint references ride_share_user (id)
 );
