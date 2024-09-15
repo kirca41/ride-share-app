@@ -17,6 +17,7 @@ import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserLogin } from '../../interfaces/UserLogin';
 import { login } from '../../services/authService';
+import { useAuth } from '../../context/AuthProvider';
 
 interface FormErrors {
     username?: string;
@@ -32,6 +33,7 @@ const Login: React.FC = () => {
     const [formErrors, setFormErrors] = useState<FormErrors>({});
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const navigate = useNavigate();
+    const { fetchActiveUser } = useAuth();
 
     const validate = (): FormErrors => {
         const errors: FormErrors = {};
@@ -63,6 +65,7 @@ const Login: React.FC = () => {
         if (Object.keys(errors).length === 0) {
             const { jwt } = await login(formData);
             localStorage.setItem('jwt', jwt);
+            fetchActiveUser();
             navigate('/');
         }
     };

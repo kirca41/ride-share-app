@@ -16,6 +16,7 @@
     "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.7",
     "@mui/x-date-pickers": "^7.14.0",
+    "@stomp/stompjs": "^7.0.0",
     "@types/leaflet": "^1.9.12",
     "axios": "^1.7.4",
     "dayjs": "^1.11.13",

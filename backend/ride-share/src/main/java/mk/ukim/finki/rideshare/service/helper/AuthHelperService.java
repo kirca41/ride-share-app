@@ -15,7 +15,7 @@ public class AuthHelperService {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
 
-        if (authentication != null) {
+        if (authentication != null && authentication.getPrincipal() instanceof User) {
             return Optional.of((User) authentication.getPrincipal());
         }
 
