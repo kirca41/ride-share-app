@@ -82,7 +82,7 @@ const Chat: React.FC = () => {
     const otherParticipantName =
         (activeUser && chat && activeUser.id === chat.participant1Id) ? chat?.participant2FullName : chat?.participant1FullName
 
-    return <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', maxWidth: '600px', margin: '0 auto' }}>
+    return <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', margin: '0 auto' }}>
         <Paper elevation={3} sx={{ padding: '16px', backgroundColor: '#1976d2', color: 'white' }}>
             <Typography variant="h6">{otherParticipantName}</Typography>
         </Paper>

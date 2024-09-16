@@ -6,14 +6,23 @@ const axiosConfig = axios.create({
 });
 
 axiosConfig.interceptors.request.use(
-  (config) => {   
+  (config) => {
+    const controller = new AbortController();
     const token = localStorage.getItem('jwt');
+    
+    if (!token && !config.url?.includes("public") && !config.url?.includes("nominatim")) {
+      controller.abort();
+      window.location.href = '/login';
+    }
     
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
 
-    return config;
+    return {
+      ...config,
+      signal: controller.signal
+    };
   },
   (error) => {
     return Promise.reject(error);
