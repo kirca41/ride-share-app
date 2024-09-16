@@ -1,4 +1,4 @@
-import { Box, Checkbox, FormControlLabel, List, useMediaQuery } from "@mui/material";
+import { Box, Checkbox, FormControlLabel, List, Theme, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { BookingResponse } from "../../interfaces/response/BookingResponse";
 import { getAllForActiveUser } from "../../services/bookingService";
@@ -8,7 +8,7 @@ const MyBookings: React.FC = () => {
 
     const [bookings, setBookings] = useState<BookingResponse[]>([]);
     const [includePast, setIncludePast] = useState(false);
-    const isSmallScreen = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
+    const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
 
     useEffect(() => {

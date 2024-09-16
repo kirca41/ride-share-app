@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ChatResponse } from "../../interfaces/response/ChatResponse";
 import { ChatService } from "../../services/chatService";
 import { MessageService } from "../../services/messageService";
@@ -9,6 +9,7 @@ import { Box, Button, List, ListItem, ListItemText, Paper, TextField, Typography
 import { Client } from "@stomp/stompjs";
 import { CreateMessageRequest } from "../../interfaces/request/CreateMessageRequest";
 import dayjs from "dayjs";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Chat: React.FC = () => {
 
@@ -18,6 +19,7 @@ const Chat: React.FC = () => {
     const [messages, setMessages] = useState<MessageResponse[]>([]);
     const [message, setMessage] = useState('');
     const stompClient = useRef<Client | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!activeUser)
@@ -83,8 +85,11 @@ const Chat: React.FC = () => {
         (activeUser && chat && activeUser.id === chat.participant1Id) ? chat?.participant2FullName : chat?.participant1FullName
 
     return <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', margin: '0 auto' }}>
-        <Paper elevation={3} sx={{ padding: '16px', backgroundColor: '#1976d2', color: 'white' }}>
-            <Typography variant="h6">{otherParticipantName}</Typography>
+        <Paper elevation={3} sx={{ padding: '16px', backgroundColor: '#1976d2', color: 'white', borderRadius: 0 }}>
+            <Typography variant="h6" display='flex' alignItems='center'>
+                <ArrowBackIcon sx={{ cursor: 'pointer' }} onClick={() => navigate(-1)}/>
+                {otherParticipantName}
+            </Typography>
         </Paper>
         <Box sx={{ flex: 1, overflowY: 'auto', padding: '16px', backgroundColor: '#f5f5f5' }}>
             <List sx={{ display: 'flex', flexDirection: 'column-reverse', height: '-webkit-fill-available', overflowY: 'scroll' }}>

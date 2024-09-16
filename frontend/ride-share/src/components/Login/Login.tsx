@@ -65,7 +65,7 @@ const Login: React.FC = () => {
         if (Object.keys(errors).length === 0) {
             const { jwt } = await login(formData);
             localStorage.setItem('jwt', jwt);
-            fetchActiveUser();
+            await fetchActiveUser();
             navigate('/');
         }
     };
