@@ -74,3 +74,13 @@ create table message (
     chat_id      bigint references chat (id),
     sender_id    bigint references ride_share_user (id)
 );
+
+create table notification (
+    id            bigserial primary key,
+    type          text,
+    subject       text,
+    recipient     text,
+    template_name text,
+    context       jsonb,
+    is_processed  boolean default false
+);

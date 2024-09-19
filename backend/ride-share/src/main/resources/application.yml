@@ -18,6 +18,17 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: none
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ridesharemailservice@gmail.com
+    password: rxmv urwq kicf fkor
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 secret:
   key: ${SECRET_KEY}

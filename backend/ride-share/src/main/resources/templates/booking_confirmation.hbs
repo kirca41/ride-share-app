@@ -1,0 +1,25 @@
+<body>
+    <p>Hi {{userFullName}},</p>
+    <p>
+        You have successfully
+        {{#if isInstantBookingEnabled}}
+            booked
+        {{else}}
+            sent a booking request for
+        {{/if}}
+        the ride with
+        <strong>{{providerFullName}}</strong> on <strong>{{departureDate}}</strong>
+        at <strong>{{departureTime}}</strong>
+        from <strong>{{rideOrigin}}</strong> to <strong>{{rideDestination}}</strong>
+        for <strong>{{ridePrice}} MKD</strong>.
+        <br/>
+        {{#unless isInstantBookingEnabled}}
+            You will receive an email with the outcome of the request.
+        {{/unless}}
+    </p>
+    <p>
+        Best,
+        <br/>
+        Ride Share
+    </p>
+</body>

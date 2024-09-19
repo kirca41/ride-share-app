@@ -13,8 +13,10 @@ import mk.ukim.finki.rideshare.service.BookingStatusService;
 import mk.ukim.finki.rideshare.service.RideService;
 import mk.ukim.finki.rideshare.service.exception.RideShareServerException;
 import mk.ukim.finki.rideshare.service.helper.AuthHelperService;
+import mk.ukim.finki.rideshare.service.notification.MailNotificationService;
 import mk.ukim.finki.rideshare.service.validator.BookingValidator;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -29,6 +31,7 @@ public class BookingServiceImpl implements BookingService {
     private final RideService rideService;
     private final BookingStatusService bookingStatusService;
     private final BookingValidator bookingValidator;
+    private MailNotificationService mailNotificationService;
 
     @Override
     public Booking getById(Long bookingId) {
@@ -36,6 +39,7 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new RuntimeException("Booking with id = [%d] not found!".formatted(bookingId)));
     }
 
+    @Transactional
     @Override
     public Booking create(Long rideId, Integer seatsToBook) {
         User activeUser = authHelperService.getActiveUser()
@@ -52,7 +56,11 @@ public class BookingServiceImpl implements BookingService {
                 ride
         );
 
-        return bookingRepository.save(booking);
+        booking = bookingRepository.save(booking);
+
+        mailNotificationService.createBookingConfirmationEmailNotification(activeUser, ride);
+
+        return booking;
     }
 
     private BookingStatus getStatusAccordingToRideIsInstantBookingEnabled(Ride ride) {

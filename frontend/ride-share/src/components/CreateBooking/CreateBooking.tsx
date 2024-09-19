@@ -9,6 +9,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import LuggageIcon from '@mui/icons-material/Luggage';
 import { createBooking } from "../../services/bookingService";
 import { CreateBookingRequest } from "../../interfaces/request/CreateBookingRequest";
+import { enqueueSnackbar } from "notistack";
 
 const CreateBooking: React.FC = () => {
 
@@ -41,8 +42,10 @@ const CreateBooking: React.FC = () => {
             }
             const bookingResponse = await createBooking(request);
 
-            // TODO: handle case when you have already booked for this ride or you are also the provider
-
+            enqueueSnackbar('Successfully saved', {
+                variant: 'success',
+                autoHideDuration: 3000
+            });
             navigate('../');
         }
     }
