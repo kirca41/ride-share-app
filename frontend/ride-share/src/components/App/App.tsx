@@ -14,6 +14,7 @@ import PublishRide from "../PublishRide/PublishRide";
 import Register from "../Register/Register";
 import RideBookingsList from "../RideBookingsList/RideBookingsList";
 import RideList from "../RideList/RideList";
+import RideRating from "../RideRating/RideRating";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: '/my-rides',
         element: <MyRides />
+      },
+      {
+        path: '/ride/:rideUuid/rating',
+        element: <RideRating />
       }
     ],
   },

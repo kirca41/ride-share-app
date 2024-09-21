@@ -1,16 +1,16 @@
 import { Box } from "@mui/material";
 import { useState } from "react";
 import { RideResponse } from "../../interfaces/response/RideResponse";
-import { search } from "../../services/rideService";
 import SearchRidesForm from "../SearchRidesForm/SearchRidesForm";
 import RideListItem from '../RideListItem/RideListItem';
+import { RideService } from "../../services/rideService";
 
 const RideList: React.FC = () => {
 
     const [rides, setRides] = useState<RideResponse[]>([]);
 
     const onSearchRidesFormSubmit = async (origin?: string, destination?: string, date?: string, seats?: number) => {
-        const ridesResponse = await search(origin, destination, date, seats);
+        const ridesResponse = await RideService.search(origin, destination, date, seats);
         setRides(ridesResponse.data);
     }
 

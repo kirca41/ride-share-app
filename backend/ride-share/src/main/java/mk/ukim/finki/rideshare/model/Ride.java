@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import mk.ukim.finki.rideshare.model.base.BaseEntity;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -16,6 +17,9 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @Table(name = "ride")
 public class Ride extends BaseEntity {
+
+    @Column(name = "uuid")
+    private UUID uuid;
 
     @Column(name = "origin")
     private String origin;

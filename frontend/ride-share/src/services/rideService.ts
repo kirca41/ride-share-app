@@ -4,29 +4,29 @@ import { RideResponse } from "../interfaces/response/RideResponse";
 
 const path = 'rides';
 
-const search = async (origin?: string, destination?: string, date?: string, seats?: number) => {
-    return axiosConfig.get<RideResponse[]>(`${path}/search`, {
-        params: {
-            origin,
-            destination,
-            date,
-            seats
-        }
-    });
+export const RideService = {
+    search: async (origin?: string, destination?: string, date?: string, seats?: number) => {
+        return axiosConfig.get<RideResponse[]>(`${path}/search`, {
+            params: {
+                origin,
+                destination,
+                date,
+                seats
+            }
+        });
+    },
+    getAllForActiveUser: async (includePast: boolean) => {
+        return axiosConfig.get<RideResponse[]>(path, {
+            params: { includePast }
+        });
+    },
+    getById: async (id: number) => {
+        return axiosConfig.get<RideResponse>(`${path}/${id}`);
+    },
+    getByUuid: async(uuid: string) => {
+        return axiosConfig.get<RideResponse>(`${path}/uuid/${uuid}`);
+    },
+    create: async (request: CreateRideRequest) => {
+        return axiosConfig.post(path, request);
+    }
 }
-
-const getAllForActiveUser = async (includePast: boolean) => {
-    return axiosConfig.get<RideResponse[]>(path, {
-        params: { includePast }
-    });
-}
-
-const getById = async (id: number) => {
-    return axiosConfig.get<RideResponse>(`${path}/${id}`);
-}
-
-const create = async (request: CreateRideRequest) => {
-    return axiosConfig.post(path, request);
-}
-
-export { search, getAllForActiveUser, getById, create };

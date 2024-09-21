@@ -20,6 +20,9 @@ public class MailNotificationService {
     private static final String BOOKING_CONFIRMATION_EMAIL_SUBJECT = "Booking Confirmation";
     private static final String BOOKING_CONFIRMATION_EMAIL_TEMPLATE_NAME = "booking_confirmation";
 
+    private static final String RIDE_RATING_EMAIL_SUBJECT = "Tell us how it went";
+    private static final String RIDE_RATING_EMAIL_TEMPLATE_NAME = "ride_rating";
+
     public void createBookingConfirmationEmailNotification(User activeUser, Ride ride) {
         Map<String, Object> context = new HashMap<>();
         context.put("userFullName", activeUser.getFullName());
@@ -36,6 +39,21 @@ public class MailNotificationService {
                 BOOKING_CONFIRMATION_EMAIL_SUBJECT,
                 activeUser.getUsername(),
                 BOOKING_CONFIRMATION_EMAIL_TEMPLATE_NAME,
+                context
+        );
+    }
+
+    public void createRideRatingEmailNotification(Ride ride, User bookedBy) {
+        Map<String, Object> context = new HashMap<>();
+        context.put("userFullName", bookedBy.getFullName());
+        context.put("providerFullName", ride.getProvider().getFullName());
+        context.put("rideUuid", ride.getUuid());
+
+        notificationService.create(
+                NotificationType.EMAIL,
+                RIDE_RATING_EMAIL_SUBJECT,
+                bookedBy.getUsername(),
+                RIDE_RATING_EMAIL_TEMPLATE_NAME,
                 context
         );
     }

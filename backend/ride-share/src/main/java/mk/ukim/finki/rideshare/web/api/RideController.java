@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/rides")
@@ -38,6 +39,11 @@ public class RideController {
     @GetMapping("/{id}")
     public RideResponse getById(@PathVariable Long id) {
         return rideConverter.toResponse(rideService.getById(id));
+    }
+
+    @GetMapping("/uuid/{uuid}")
+    public RideResponse getByUuid(@PathVariable UUID uuid) {
+        return rideConverter.toResponse(rideService.getByUuid(uuid));
     }
 
     @PostMapping

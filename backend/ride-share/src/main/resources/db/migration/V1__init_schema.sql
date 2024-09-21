@@ -22,6 +22,7 @@ create table ride_share_user (
 
 create table ride (
     id                         bigserial primary key,
+    uuid                       uuid,
     origin                     text,
     origin_latitude            float,
     origin_longitude           float,
@@ -56,6 +57,7 @@ create table booking (
 create table rating (
     id       bigserial primary key,
     value    float not null,
+    comment  text,
     ride_id  bigint references ride (id),
     rated_by bigint references ride_share_user (id)
 );

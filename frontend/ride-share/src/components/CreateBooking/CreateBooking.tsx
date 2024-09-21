@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { getById } from "../../services/rideService";
 import { RideResponse } from "../../interfaces/response/RideResponse";
 import { Box, Button, Card, CardActions, CardContent, CardHeader, Divider, TextField, Typography } from "@mui/material";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -10,6 +9,7 @@ import LuggageIcon from '@mui/icons-material/Luggage';
 import { createBooking } from "../../services/bookingService";
 import { CreateBookingRequest } from "../../interfaces/request/CreateBookingRequest";
 import { enqueueSnackbar } from "notistack";
+import { RideService } from "../../services/rideService";
 
 const CreateBooking: React.FC = () => {
 
@@ -30,7 +30,7 @@ const CreateBooking: React.FC = () => {
     }, [searchParams]);
 
     const fetchRideById = async () => {
-        const rideResponse = await getById(Number(rideId));
+        const rideResponse = await RideService.getById(Number(rideId));
         setRide(rideResponse.data);
     }
 
@@ -40,7 +40,7 @@ const CreateBooking: React.FC = () => {
                 rideId: ride.id,
                 seatsToBook: seats
             }
-            const bookingResponse = await createBooking(request);
+            await createBooking(request);
 
             enqueueSnackbar('Successfully saved', {
                 variant: 'success',

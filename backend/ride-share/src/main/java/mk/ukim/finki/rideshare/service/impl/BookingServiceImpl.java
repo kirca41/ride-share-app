@@ -46,7 +46,7 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new RideShareServerException("You must be logged in to book")); // should also check Authority?
         Ride ride = rideService.getById(rideId);
 
-        bookingValidator.validateCanCreateBooking(activeUser, ride, seatsToBook, existsByRideAndUser(ride, activeUser));
+        bookingValidator.validateCanCreateBooking(activeUser, ride, seatsToBook, existsByRideAndBookedBy(ride, activeUser));
 
         Booking booking = new Booking(
                 seatsToBook,
@@ -72,8 +72,13 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Boolean existsByRideAndUser(Ride ride, User user) {
+    public Boolean existsByRideAndBookedBy(Ride ride, User user) {
         return bookingRepository.existsByRideAndBookedBy(ride, user);
+    }
+
+    @Override
+    public Boolean existsByRideAndBookedByAndStatus(Ride ride, User bookedBy, BookingStatus bookingStatus) {
+        return bookingRepository.existsByRideAndBookedByAndStatus(ride, bookedBy, bookingStatus);
     }
 
     @Override
@@ -99,5 +104,10 @@ public class BookingServiceImpl implements BookingService {
                 .findAll(
                         BookingSpecification.bookedByEqualsAndBookedAtGreaterThan(activeUser, includePast ? null : LocalDate.now())
                 );
+    }
+
+    @Override
+    public List<Booking> getAllByStatusAndRideDepartureTimeBefore(BookingStatus status, ZonedDateTime referenceDateTime) {
+        return bookingRepository.findAllByStatusAndRide_DepartureDateTimeBefore(status, referenceDateTime);
     }
 }

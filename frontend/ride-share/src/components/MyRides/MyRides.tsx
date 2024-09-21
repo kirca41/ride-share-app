@@ -1,9 +1,9 @@
 import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { RideResponse } from "../../interfaces/response/RideResponse";
-import { getAllForActiveUser } from "../../services/rideService";
 import RideListItem from "../RideListItem/RideListItem";
 import { Link } from "react-router-dom";
+import { RideService } from "../../services/rideService";
 
 const MyRides: React.FC = () => {
 
@@ -15,7 +15,7 @@ const MyRides: React.FC = () => {
     }, [includePast])
 
     const fetchMyRides = async () => {
-        const ridesResponse = await getAllForActiveUser(includePast);
+        const ridesResponse = await RideService.getAllForActiveUser(includePast);
         setRides(ridesResponse.data);
     }
 

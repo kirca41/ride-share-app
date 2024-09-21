@@ -12,6 +12,10 @@ axiosConfig.interceptors.request.use(
     
     if (!token && !config.url?.includes("public") && !config.url?.includes("nominatim")) {
       controller.abort();
+      enqueueSnackbar('You must be logged in to continue', {
+        variant: 'error', 
+        autoHideDuration: 3000
+      });
       window.location.href = '/login';
     }
     

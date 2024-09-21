@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -67,6 +68,12 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
+    public Ride getByUuid(UUID uuid) {
+        return rideRepository.findByUuid(uuid)
+                .orElseThrow(() -> new RideShareServerException("Ride with uuid %s does not exist".formatted(uuid)));
+    }
+
+    @Override
     public Ride create(String origin,
                        Double originLatitude,
                        Double originLongitude,
@@ -83,6 +90,7 @@ public class RideServiceImpl implements RideService {
         User activeUser = authHelperService.getActiveUser()
                 .orElseThrow(() -> new RideShareServerException("You must be logged in to publish a new ride")); // Should also check Authority
         Ride ride = new Ride(
+                UUID.randomUUID(),
                 origin,
                 originLatitude,
                 originLongitude,

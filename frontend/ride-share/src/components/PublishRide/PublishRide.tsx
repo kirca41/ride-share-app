@@ -10,8 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import { LocationSelectOption } from '../../interfaces/LocationSelectOption';
 import { CreateRideRequest } from '../../interfaces/request/CreateRideRequest';
 import { searchLocation } from '../../services/osmService';
-import { create } from '../../services/rideService';
 import { Map } from '../Map/Map';
+import { RideService } from '../../services/rideService';
 
 interface PublishRideFormData {
     origin: LocationSelectOption | null,
@@ -85,7 +85,7 @@ const PublishRide: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        await create(formDataToCreateRideRequest());
+        await RideService.create(formDataToCreateRideRequest());
         enqueueSnackbar('Ride successfully published', {
             variant: 'success',
             autoHideDuration: 3000

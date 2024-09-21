@@ -7,6 +7,7 @@ import mk.ukim.finki.rideshare.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Long>,
@@ -14,7 +15,11 @@ public interface BookingRepository extends JpaRepository<Booking, Long>,
 
     Boolean existsByRideAndBookedBy(Ride ride, User user);
 
+    Boolean existsByRideAndBookedByAndStatus(Ride ride, User user, BookingStatus status);
+
     List<Booking> findAllByRideAndStatus(Ride ride, BookingStatus status);
 
     List<Booking> findAllByRideOrderByStatus(Ride ride);
+
+    List<Booking> findAllByStatusAndRide_DepartureDateTimeBefore(BookingStatus status, ZonedDateTime referenceDateTime);
 }
