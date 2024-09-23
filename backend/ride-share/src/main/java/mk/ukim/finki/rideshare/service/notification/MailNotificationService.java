@@ -20,10 +20,13 @@ public class MailNotificationService {
     private static final String BOOKING_CONFIRMATION_EMAIL_SUBJECT = "Booking Confirmation";
     private static final String BOOKING_CONFIRMATION_EMAIL_TEMPLATE_NAME = "booking_confirmation";
 
+    private static final String BOOKING_ALERT_EMAIL_SUBJECT = "New booking for ride";
+    private static final String BOOKING_ALERT_EMAIL_TEMPLATE_NAME = "booking_alert";
+
     private static final String RIDE_RATING_EMAIL_SUBJECT = "Tell us how it went";
     private static final String RIDE_RATING_EMAIL_TEMPLATE_NAME = "ride_rating";
 
-    public void createBookingConfirmationEmailNotification(User activeUser, Ride ride) {
+    public void createBookingEmailNotifications(User activeUser, Ride ride) {
         Map<String, Object> context = new HashMap<>();
         context.put("userFullName", activeUser.getFullName());
         context.put("isInstantBookingEnabled", ride.getIsInstantBookingEnabled());
@@ -33,12 +36,28 @@ public class MailNotificationService {
         context.put("rideOrigin", ride.getOrigin());
         context.put("rideDestination", ride.getDestination());
         context.put("ridePrice", ride.getPrice());
+        context.put("rideId", ride.getId());
 
+        createBookingConfirmationEmailNotification(activeUser.getUsername(), context);
+        createNewBookingAlertEmailNotification(activeUser.getUsername(), context);
+    }
+
+    private void createBookingConfirmationEmailNotification(String recipient, Map<String, Object> context) {
         notificationService.create(
                 NotificationType.EMAIL,
                 BOOKING_CONFIRMATION_EMAIL_SUBJECT,
-                activeUser.getUsername(),
+                recipient,
                 BOOKING_CONFIRMATION_EMAIL_TEMPLATE_NAME,
+                context
+        );
+    }
+
+    private void createNewBookingAlertEmailNotification(String recipient, Map<String, Object> context) {
+        notificationService.create(
+                NotificationType.EMAIL,
+                BOOKING_ALERT_EMAIL_SUBJECT,
+                recipient,
+                BOOKING_ALERT_EMAIL_TEMPLATE_NAME,
                 context
         );
     }

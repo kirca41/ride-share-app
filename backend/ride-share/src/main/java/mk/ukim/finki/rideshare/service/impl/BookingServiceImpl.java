@@ -58,7 +58,7 @@ public class BookingServiceImpl implements BookingService {
 
         booking = bookingRepository.save(booking);
 
-        mailNotificationService.createBookingConfirmationEmailNotification(activeUser, ride);
+        mailNotificationService.createBookingEmailNotifications(activeUser, ride);
 
         return booking;
     }
