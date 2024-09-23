@@ -2,10 +2,12 @@ package mk.ukim.finki.rideshare.web.api;
 
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.rideshare.model.Chat;
+import mk.ukim.finki.rideshare.model.Message;
 import mk.ukim.finki.rideshare.model.User;
 import mk.ukim.finki.rideshare.service.ChatService;
 import mk.ukim.finki.rideshare.service.MessageService;
 import mk.ukim.finki.rideshare.service.UserService;
+import mk.ukim.finki.rideshare.service.notification.OnPageNotificationService;
 import mk.ukim.finki.rideshare.web.converter.MessageConverter;
 import mk.ukim.finki.rideshare.web.request.CreateMessageRequest;
 import mk.ukim.finki.rideshare.web.response.MessageResponse;
@@ -29,6 +31,7 @@ public class MessageController {
     private final MessageService messageService;
     private final ChatService chatService;
     private final UserService userService;
+    private final OnPageNotificationService onPageNotificationService;
     private final MessageConverter messageConverter;
 
     @GetMapping("/chat/{chatUuid}")
@@ -47,6 +50,9 @@ public class MessageController {
         User sender = userService.getById(request.senderId());
         Chat chat = chatService.getById(request.chatId());
 
-        return messageConverter.toResponse(messageService.create(request.content(), sender, chat));
+        Message message = messageService.create(request.content(), sender, chat);
+        onPageNotificationService.createNewMessageOnPageNotification(message, otherParticipantId);
+
+        return messageConverter.toResponse(message);
     }
 }

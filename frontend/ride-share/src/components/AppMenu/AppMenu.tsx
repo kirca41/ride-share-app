@@ -1,13 +1,42 @@
 import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Avatar, Button, Drawer, IconButton, List, ListItemButton, ListItemText, Theme, Toolbar, Typography, useMediaQuery } from "@mui/material";
-import React, { useState } from "react";
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { AppBar, Avatar, Badge, Button, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText, Theme, Toolbar, Typography, useMediaQuery } from "@mui/material";
+import { Client } from '@stomp/stompjs';
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from '../../context/AuthProvider';
+import { BellNotificationResponse } from '../../interfaces/response/BellNotificationResponse';
 
 const AppMenu: React.FC = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [unreadMessagesNumber, setUnreadMessagesNumber] = useState(0);
+    const [notificationDrawerOpen, setNotificationDrawerOpen] = useState(false);
+    const [notifications, setNotifications] = useState<BellNotificationResponse[]>([]);
     const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+    const stompClient = useRef<Client | null>(null);
     const { activeUser } = useAuth();
+
+    useEffect(() => {
+        if (activeUser) {
+            stompClient.current = new Client({
+                brokerURL: `ws://localhost:8080/bell?fullName=${activeUser.fullName}`,
+                reconnectDelay: 5000,
+                onConnect: () => {
+                    stompClient.current?.subscribe(`/topic/bell/${activeUser.id}`, (msg: any) => {
+                        const receivedNotification = JSON.parse(msg.body) as BellNotificationResponse;
+                        setNotifications((prevNotifications) => [receivedNotification, ...prevNotifications]);
+                        setUnreadMessagesNumber((prev) => prev + 1);
+                    });
+                }
+            });
+
+            stompClient.current.activate();
+        }
+
+        return () => {
+            stompClient.current?.deactivate();
+        };
+    }, [activeUser]);
 
     const getActiveUserInitials = () => {
         return activeUser.firstName[0] + activeUser.lastName[0];
@@ -36,6 +65,11 @@ const AppMenu: React.FC = () => {
         setDrawerOpen(open);
     };
 
+    const toggleNotificationDrawer = (open: boolean) => () => {
+        setNotificationDrawerOpen(open);
+        if (open) setUnreadMessagesNumber(0);
+    };
+
     const renderMenuItems = () => {
         if (isSmallScreen) {
 
@@ -62,6 +96,11 @@ const AppMenu: React.FC = () => {
                 <Typography variant="h6" sx={{ flexGrow: 1 }}>
                     <Link to='/' style={{ textDecoration: 'none', color: 'white' }}>RideShare</Link>
                 </Typography>
+                <IconButton color="inherit" onClick={toggleNotificationDrawer(true)}>
+                    <Badge badgeContent={unreadMessagesNumber} color="error">
+                        <NotificationsIcon />
+                    </Badge>
+                </IconButton>
                 {isSmallScreen ? (
                     <>
                         <IconButton
@@ -81,6 +120,26 @@ const AppMenu: React.FC = () => {
                 ) : (
                     renderMenuItems()
                 )}
+                <Drawer anchor="bottom" open={notificationDrawerOpen} onClose={toggleNotificationDrawer(false)}>
+                    <List>
+                        <Typography variant="h6" sx={{ padding: 2 }}>Notifications</Typography>
+                        <Divider />
+                        {notifications.length > 0 ? (
+                            notifications.map((notification, index) => (
+                                <ListItemButton component={Link} to={`/chat/${notification.chatUuid}`} key={index}>
+                                    <ListItemText
+                                        primary={`New message from ${notification.senderFullName} (${notification.sentOnDate} ${notification.sentAtTime}):`}
+                                        secondary={notification.content}
+                                    />
+                                </ListItemButton>
+                            ))
+                        ) : (
+                            <ListItem>
+                                <ListItemText primary="No new notifications" />
+                            </ListItem>
+                        )}
+                    </List>
+                </Drawer>
             </Toolbar>
         </AppBar>
     );

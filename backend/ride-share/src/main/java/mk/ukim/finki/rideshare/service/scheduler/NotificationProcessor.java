@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.rideshare.model.Notification;
 import mk.ukim.finki.rideshare.service.NotificationService;
 import mk.ukim.finki.rideshare.service.exception.RideShareServerException;
+import mk.ukim.finki.rideshare.service.notification.BellService;
 import mk.ukim.finki.rideshare.service.notification.MailService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ public class NotificationProcessor {
 
     private final NotificationService notificationService;
     private final MailService mailService;
+    private final BellService bellService;
 
     @Scheduled(cron = "*/10 * * * * ?")
     public void processNotifications() {
@@ -40,7 +42,8 @@ public class NotificationProcessor {
                 }
             }
             case ON_PAGE -> {
-                // TODO: Not implemented yet
+                Boolean result = bellService.sendBellNotificationIfSubscriptionExists(notification);
+                notification.setIsProcessed(result);
             }
         }
 
