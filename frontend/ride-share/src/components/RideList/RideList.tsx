@@ -9,8 +9,8 @@ const RideList: React.FC = () => {
 
     const [rides, setRides] = useState<RideResponse[]>([]);
 
-    const onSearchRidesFormSubmit = async (origin?: string, destination?: string, date?: string, seats?: number) => {
-        const ridesResponse = await RideService.search(origin, destination, date, seats);
+    const onSearchRidesFormSubmit = async (origin?: string, destination?: string, date?: string, seats?: number, sortBy?: string, sortDirection?: string) => {
+        const ridesResponse = await RideService.search(origin, destination, date, seats, sortBy, sortDirection);
         setRides(ridesResponse.data);
     }
 

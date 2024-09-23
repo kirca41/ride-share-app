@@ -10,6 +10,7 @@ import mk.ukim.finki.rideshare.service.BookingRideManagingService;
 import mk.ukim.finki.rideshare.service.RideService;
 import mk.ukim.finki.rideshare.service.exception.RideShareServerException;
 import mk.ukim.finki.rideshare.service.helper.AuthHelperService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,12 +28,13 @@ public class RideServiceImpl implements RideService {
     private final BookingRideManagingService bookingRideManagingService;
 
     @Override
-    public List<Ride> search(String origin, String destination, LocalDate date, Integer seats) {
+    public List<Ride> search(String origin, String destination, LocalDate date, Integer seats, Sort sort) {
         List<Ride> rides = rideRepository.findAll(
                 RideSpecification
                         .hasOriginLikeAndDestinationLikeAndDepartureDateTime(
                                 origin, destination, date
-                        )
+                        ),
+                sort
         );
 
         if (seats == null)

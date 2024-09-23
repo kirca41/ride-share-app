@@ -1,6 +1,7 @@
 package mk.ukim.finki.rideshare.service;
 
 import mk.ukim.finki.rideshare.model.Ride;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -9,7 +10,7 @@ import java.util.UUID;
 
 public interface RideService {
 
-    List<Ride> search(String origin, String destination, LocalDate date, Integer seats);
+    List<Ride> search(String origin, String destination, LocalDate date, Integer seats, Sort sort);
 
     List<Ride> getAllForActiveUser(Boolean includePast);
 

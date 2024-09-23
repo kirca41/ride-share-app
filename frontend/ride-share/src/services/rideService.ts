@@ -5,13 +5,15 @@ import { RideResponse } from "../interfaces/response/RideResponse";
 const path = 'rides';
 
 export const RideService = {
-    search: async (origin?: string, destination?: string, date?: string, seats?: number) => {
+    search: async (origin?: string, destination?: string, date?: string, seats?: number, sortBy?: string, sortDirection?: string) => {
         return axiosConfig.get<RideResponse[]>(`${path}/search`, {
             params: {
                 origin,
                 destination,
                 date,
-                seats
+                seats,
+                sortBy,
+                sortDirection
             }
         });
     },

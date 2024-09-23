@@ -6,6 +6,7 @@ import mk.ukim.finki.rideshare.service.RideService;
 import mk.ukim.finki.rideshare.web.converter.RideConverter;
 import mk.ukim.finki.rideshare.web.request.CreateRideRequest;
 import mk.ukim.finki.rideshare.web.response.RideResponse;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -25,8 +26,11 @@ public class RideController {
     public List<RideResponse> search(@RequestParam(required = false) String origin,
                                      @RequestParam(required = false) String destination,
                                      @RequestParam(required = false) LocalDate date,
-                                     @RequestParam(required = false) Integer seats) {
-        return rideService.search(origin, destination, date, seats).stream().map(rideConverter::toResponse).toList();
+                                     @RequestParam(required = false) Integer seats,
+                                     @RequestParam(value = "sortBy", required = false, defaultValue = "departureDateTime") String sortBy,
+                                     @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") String sortDirection) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        return rideService.search(origin, destination, date, seats, sort).stream().map(rideConverter::toResponse).toList();
     }
 
     @GetMapping
