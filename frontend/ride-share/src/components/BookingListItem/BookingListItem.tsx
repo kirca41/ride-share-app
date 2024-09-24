@@ -1,6 +1,7 @@
 import { Button, Grid, ListItem, ListItemText, Typography } from "@mui/material"
 import { BookingResponse } from "../../interfaces/response/BookingResponse"
 import { BookingStatus } from "../../interfaces/enums/BookingStatus";
+import dayjs from "dayjs";
 
 interface BookingListItemProps {
     booking: BookingResponse;
@@ -8,15 +9,18 @@ interface BookingListItemProps {
     isMyBookingsView: boolean;
     onApprove: (id: number) => void;
     onDecline: (id: number) => void;
+    onCancel: (id: number) => void;
 }
 
-const BookingListItem: React.FC<BookingListItemProps> = ({ booking, isSmallScreen, isMyBookingsView, onApprove, onDecline }: BookingListItemProps) => {
+const BookingListItem: React.FC<BookingListItemProps> = ({ booking, isSmallScreen, isMyBookingsView, onApprove, onDecline, onCancel }: BookingListItemProps) => {
 
     const { ride } = booking;
     const bookingDepartureTimeDetails = (ride.departureDate && ride.departureTime) ? `${ride.departureDate} ${ride.departureTime}`
         : 'Flexible departure time';
-    const secondaryListItemText = isMyBookingsView ? `Booked by: ${booking.bookedByUsername} ${booking.bookedOnDate} ${booking.bookedOnTime}` 
+    const secondaryListItemText = !isMyBookingsView ? `Booked by: ${booking.bookedByUsername} ${booking.bookedOnDate} ${booking.bookedOnTime}` 
         : `Provided by: ${ride.providerFullName}`;
+    const rideDepartureDateTime = dayjs(ride.departureDate + ride.departureTime, "yyyy-MM-dd HH:mm");
+    const shouldShowActionButtons = rideDepartureDateTime.isAfter(dayjs());
 
     return <ListItem key={booking.id} divider>
         <Grid container direction={isSmallScreen ? 'column' : 'row'} spacing={2} alignItems="center">
@@ -27,7 +31,7 @@ const BookingListItem: React.FC<BookingListItemProps> = ({ booking, isSmallScree
                 />
             </Grid>
             <Grid item xs={12} sm={4}>
-                {(booking.statusName === BookingStatus.NEW && isMyBookingsView) ? (
+                {(shouldShowActionButtons && booking.statusName === BookingStatus.NEW && !isMyBookingsView) ? (
                     <Grid container spacing={1} justifyContent={isSmallScreen ? 'flex-start' : 'flex-end'}>
                         <Grid item>
                             <Button
@@ -50,11 +54,20 @@ const BookingListItem: React.FC<BookingListItemProps> = ({ booking, isSmallScree
                             </Button>
                         </Grid>
                     </Grid>
-                ) : (
-                    <Typography variant="h6" align={isSmallScreen ? 'left' : 'right'} color="primary">
-                        {booking.statusPrettyName}
-                    </Typography>
+                ) : (<Grid item xs={12} sm={4}><Typography variant="h6" align={isSmallScreen ? 'left' : 'right'} color="primary" sx={{ textAlign: 'center' }}>
+                    {booking.statusPrettyName}
+                </Typography></Grid>
                 )}
+                {shouldShowActionButtons && booking.statusName !== BookingStatus.DECLINED && booking.statusName !== BookingStatus.CANCELED && isMyBookingsView && <Grid item>
+                        <Button
+                            variant="contained"
+                            color="error"
+                            fullWidth={isSmallScreen}
+                            onClick={() => onCancel(booking.id)}
+                        >
+                            Cancel
+                        </Button>
+                    </Grid>}
             </Grid>
         </Grid>
     </ListItem>

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -82,10 +83,54 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking updateStatus(Long bookingId, String newStatusName) {
+    public Booking approve(Long bookingId) {
         Booking booking = getById(bookingId);
-        BookingStatus newStatus = bookingStatusService.findByName(newStatusName);
+        BookingStatus bookingStatusNew = bookingStatusService.findByName(ApplicationConstants.BOOKING_STATUS_NEW);
+        if (!bookingStatusNew.equals(booking.getStatus())) {
+            throw new RideShareServerException("Only bookings with status %s can be approved".formatted(bookingStatusNew.getPrettyName()));
+        }
 
+        if (!rideService.hasRideEnoughSeatsLeft(booking.getRide(), booking.getSeatsBooked())) {
+            throw new RideShareServerException("Not enough seats left for this ride");
+        }
+
+        return updateStatus(booking, ApplicationConstants.BOOKING_STATUS_APPROVED);
+    }
+
+    @Override
+    public Booking cancel(Long bookingId) {
+        Booking booking = getById(bookingId);
+        BookingStatus bookingStatusDeclined = bookingStatusService.findByName(ApplicationConstants.BOOKING_STATUS_DECLINED);
+        if (bookingStatusDeclined.equals(booking.getStatus())) {
+            throw new RideShareServerException("You cannot cancel an already declined booking");
+        }
+
+        if (lessThan24HoursBeforeRideDepartureDateTime(booking.getRide().getDepartureDateTime())) {
+            throw new RideShareServerException("You cannot cancel a booking less than 24 hours before departure time");
+        }
+
+        return updateStatus(booking, ApplicationConstants.BOOKING_STATUS_CANCELED);
+    }
+
+    private Boolean lessThan24HoursBeforeRideDepartureDateTime(ZonedDateTime rideDepartureDateTime) {
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
+        return rideDepartureDateTime.minusHours(24).isBefore(now);
+    }
+
+    @Override
+    public Booking decline(Long bookingId) {
+        Booking booking = getById(bookingId);
+        BookingStatus bookingStatusNew = bookingStatusService.findByName(ApplicationConstants.BOOKING_STATUS_NEW);
+        if (!bookingStatusNew.equals(booking.getStatus())) {
+            throw new RideShareServerException("Only bookings with status %s can be declined".formatted(bookingStatusNew.getPrettyName()));
+        }
+
+        return updateStatus(booking, ApplicationConstants.BOOKING_STATUS_DECLINED);
+    }
+
+    @Override
+    public Booking updateStatus(Booking booking, String newStatusName) {
+        BookingStatus newStatus = bookingStatusService.findByName(newStatusName);
         booking.setStatus(newStatus);
         return bookingRepository.save(booking);
     }

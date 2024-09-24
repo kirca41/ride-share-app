@@ -14,6 +14,8 @@ public interface RideService {
 
     List<Ride> getAllForActiveUser(Boolean includePast);
 
+    Boolean hasRideEnoughSeatsLeft(Ride ride, Integer seats);
+
     Ride getById(Long id);
 
     Ride getByUuid(UUID uuid);

@@ -26,4 +26,8 @@ const decline = async (id: number) => {
     return axiosConfig.put<BookingResponse>(`${path}/${id}/decline`);
 }
 
-export { createBooking, getAllForRide, getAllForActiveUser, approve, decline };
+const cancel = async (id: number) => {
+    return axiosConfig.put<BookingResponse>(`${path}/${id}/cancel`);
+}
+
+export { createBooking, getAllForRide, getAllForActiveUser, approve, decline, cancel };

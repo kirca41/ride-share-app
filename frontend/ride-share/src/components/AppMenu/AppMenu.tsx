@@ -44,8 +44,12 @@ const AppMenu: React.FC = () => {
 
     const menuItems = [
         {
-            label: 'Rides',
-            link: '/'
+            label: 'My Rides',
+            link: '/my-rides'
+        },
+        {
+            label: 'My Bookings',
+            link: '/my-bookings'
         },
         {
             label: 'Publish Ride',

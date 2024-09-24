@@ -58,7 +58,7 @@ public class RideServiceImpl implements RideService {
                 .toList();
     }
 
-    private Boolean hasRideEnoughSeatsLeft(Ride ride, Integer seats) {
+    public Boolean hasRideEnoughSeatsLeft(Ride ride, Integer seats) {
         return ride.getCapacity() -
                 bookingRideManagingService.getAllByRideAndStatusApproved(ride).stream().mapToInt(Booking::getSeatsBooked).sum() >= seats;
     }

@@ -1,7 +1,6 @@
 package mk.ukim.finki.rideshare.web.api;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.rideshare.config.ApplicationConstants;
 import mk.ukim.finki.rideshare.model.Booking;
 import mk.ukim.finki.rideshare.service.BookingService;
 import mk.ukim.finki.rideshare.web.converter.BookingConverter;
@@ -29,23 +28,17 @@ public class BookingController {
 
     @PutMapping("/{id}/approve")
     public BookingResponse approve(@PathVariable Long id) {
-        return bookingConverter.toResponse(
-                bookingService.updateStatus(id, ApplicationConstants.BOOKING_STATUS_APPROVED)
-        );
+        return bookingConverter.toResponse(bookingService.approve(id));
     }
 
     @PutMapping("/{id}/cancel")
     public BookingResponse cancel(@PathVariable Long id) {
-        return bookingConverter.toResponse(
-                bookingService.updateStatus(id, ApplicationConstants.BOOKING_STATUS_CANCELED)
-        );
+        return bookingConverter.toResponse(bookingService.cancel(id));
     }
 
     @PutMapping("/{id}/decline")
     public BookingResponse decline(@PathVariable Long id) {
-        return bookingConverter.toResponse(
-                bookingService.updateStatus(id, ApplicationConstants.BOOKING_STATUS_DECLINED)
-        );
+        return bookingConverter.toResponse(bookingService.decline(id));
     }
 
     @GetMapping("/rides/{rideId}")

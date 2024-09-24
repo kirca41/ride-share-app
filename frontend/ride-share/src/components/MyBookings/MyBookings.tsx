@@ -1,7 +1,7 @@
 import { Box, Checkbox, FormControlLabel, List, Theme, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { BookingResponse } from "../../interfaces/response/BookingResponse";
-import { getAllForActiveUser } from "../../services/bookingService";
+import { cancel, getAllForActiveUser } from "../../services/bookingService";
 import BookingListItem from "../BookingListItem/BookingListItem";
 
 const MyBookings: React.FC = () => {
@@ -20,8 +20,14 @@ const MyBookings: React.FC = () => {
         setBookings(bookingsResponse.data);
     }
 
+    const onCancel = async (id: number) => {
+        const response = await cancel(id);
+        if (response.status === 200)
+            fetchBookingsForActiveUser();
+    }
+
     const renderedBookings = bookings.map(booking => {
-        return <BookingListItem booking={booking} isSmallScreen={isSmallScreen} isMyBookingsView={false} onApprove={() => {}} onDecline={() => {}} />
+        return <BookingListItem key={booking.id} booking={booking} isSmallScreen={isSmallScreen} isMyBookingsView={true} onApprove={() => {}} onDecline={() => {}} onCancel={onCancel} />
     });
 
     let noBookingsYet;

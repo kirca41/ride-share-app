@@ -18,7 +18,13 @@ public interface BookingService {
 
     Boolean existsByRideAndBookedByAndStatus(Ride ride, User bookedBy, BookingStatus bookingStatus);
 
-    Booking updateStatus(Long bookingId, String newStatusName);
+    Booking approve(Long bookingId);
+
+    Booking cancel(Long bookingId);
+
+    Booking decline(Long bookingId);
+
+    Booking updateStatus(Booking booking, String newStatusName);
 
     List<Booking> getAllForRide(Long rideId);
 

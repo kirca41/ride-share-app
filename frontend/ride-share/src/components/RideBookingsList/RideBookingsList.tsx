@@ -39,7 +39,7 @@ const RideBookingsList: React.FC = () => {
     }
 
     const renderedBookings = bookings.map(booking => {
-        return <BookingListItem booking={booking} isSmallScreen={isSmallScreen} isMyBookingsView={true} onApprove={onApprove} onDecline={onDecline} />
+        return <BookingListItem key={booking.id} booking={booking} isSmallScreen={isSmallScreen} isMyBookingsView={false} onApprove={onApprove} onDecline={onDecline} onCancel={() => {}} />
     });
 
     return <List sx={{ width: isSmallScreen ? "100%" : "60%", margin: "0 auto" }}>
