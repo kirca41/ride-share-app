@@ -19,7 +19,7 @@ const BookingListItem: React.FC<BookingListItemProps> = ({ booking, isSmallScree
         : 'Flexible departure time';
     const secondaryListItemText = !isMyBookingsView ? `Booked by: ${booking.bookedByUsername} ${booking.bookedOnDate} ${booking.bookedOnTime}` 
         : `Provided by: ${ride.providerFullName}`;
-    const rideDepartureDateTime = dayjs(ride.departureDate + ride.departureTime, "yyyy-MM-dd HH:mm");
+    const rideDepartureDateTime = dayjs(ride.departureDate + ride.departureTime, "YYYY-MM-DD HH:mm");
     const shouldShowActionButtons = rideDepartureDateTime.isAfter(dayjs());
 
     return <ListItem key={booking.id} divider>

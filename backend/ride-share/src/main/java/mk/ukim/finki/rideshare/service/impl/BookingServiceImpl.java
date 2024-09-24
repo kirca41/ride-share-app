@@ -40,8 +40,8 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new RuntimeException("Booking with id = [%d] not found!".formatted(bookingId)));
     }
 
-    @Transactional
     @Override
+    @Transactional
     public Booking create(Long rideId, Integer seatsToBook) {
         User activeUser = authHelperService.getActiveUser()
                 .orElseThrow(() -> new RideShareServerException("You must be logged in to book")); // should also check Authority?
@@ -98,6 +98,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional
     public Booking cancel(Long bookingId) {
         Booking booking = getById(bookingId);
         BookingStatus bookingStatusDeclined = bookingStatusService.findByName(ApplicationConstants.BOOKING_STATUS_DECLINED);
@@ -109,7 +110,9 @@ public class BookingServiceImpl implements BookingService {
             throw new RideShareServerException("You cannot cancel a booking less than 24 hours before departure time");
         }
 
-        return updateStatus(booking, ApplicationConstants.BOOKING_STATUS_CANCELED);
+        Booking updatedBooking = updateStatus(booking, ApplicationConstants.BOOKING_STATUS_CANCELED);
+        mailNotificationService.createBookingCancellationEmailNotification(booking.getRide(), booking.getBookedBy());
+        return updatedBooking;
     }
 
     private Boolean lessThan24HoursBeforeRideDepartureDateTime(ZonedDateTime rideDepartureDateTime) {
