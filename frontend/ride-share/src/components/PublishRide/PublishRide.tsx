@@ -1,17 +1,18 @@
-import { Autocomplete, Button, Checkbox, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
+import { Autocomplete, Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Grid, TextField, Typography } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs, { Dayjs } from 'dayjs';
 import { debounce } from 'lodash';
 import { enqueueSnackbar } from 'notistack';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LocationSelectOption } from '../../interfaces/LocationSelectOption';
 import { CreateRideRequest } from '../../interfaces/request/CreateRideRequest';
 import { searchLocation } from '../../services/osmService';
 import { Map } from '../Map/Map';
 import { RideService } from '../../services/rideService';
+import { RidePriceStatisticsResponse } from '../../interfaces/response/RidePriceStatisticsResponse';
 
 interface PublishRideFormData {
     origin: LocationSelectOption | null,
@@ -39,7 +40,19 @@ const PublishRide: React.FC = () => {
     });
     const [originOptions, setOriginOptions] = useState<LocationSelectOption[]>([]);
     const [destinationOptions, setDestinationOptions] = useState<LocationSelectOption[]>([]);
+    const [ridePriceStatistics, setRidePriceStatistics] = useState<RidePriceStatisticsResponse | null>(null);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        fetchRidePriceStatistics();
+    }, [formData.origin, formData.destination]);
+
+    const fetchRidePriceStatistics = async () => {
+        if (formData.origin != null && formData.destination != null) {
+            const response = await RideService.getPriceStatisticsForRide(formData.origin.value, formData.destination.value);
+            setRidePriceStatistics(response.data);
+        }
+    }
 
     const debouncedSearchOriginOptions = useMemo(
         () =>
@@ -212,15 +225,19 @@ const PublishRide: React.FC = () => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            label="Price"
-                            name="price"
-                            value={formData.price}
-                            onChange={handleChange}
-                            type="number"
-                            required
-                        />
+                        <FormControl fullWidth>
+                            <TextField
+                                label="Price"
+                                name="price"
+                                value={formData.price}
+                                onChange={handleChange}
+                                type="number"
+                                required
+                            />
+                            {ridePriceStatistics && ridePriceStatistics.min && 
+                            ridePriceStatistics.max && ridePriceStatistics.average && 
+                            <FormHelperText>{`Suggested price range for this route: ${ridePriceStatistics.min} - ${ridePriceStatistics.max}. Average price: ${Math.round(ridePriceStatistics.average)}`}</FormHelperText>}
+                        </FormControl>
                     </Grid>
                     <Grid item xs={12}>
                         <FormControlLabel

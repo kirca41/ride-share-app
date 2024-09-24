@@ -5,12 +5,14 @@ import mk.ukim.finki.rideshare.model.Ride;
 import mk.ukim.finki.rideshare.service.RideService;
 import mk.ukim.finki.rideshare.web.converter.RideConverter;
 import mk.ukim.finki.rideshare.web.request.CreateRideRequest;
+import mk.ukim.finki.rideshare.web.response.RidePriceStatisticsResponse;
 import mk.ukim.finki.rideshare.web.response.RideResponse;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.UUID;
 
@@ -69,6 +71,19 @@ public class RideController {
         );
 
         return rideConverter.toResponse(ride);
+    }
+
+    @GetMapping("/recommended-price")
+    public RidePriceStatisticsResponse getPriceStatisticsForRide(@RequestParam(defaultValue = "") String origin,
+                                                                 @RequestParam(defaultValue = "") String destination) {
+        List<Ride> rides = rideService.getAllByOriginLikeAndDestinationLike(origin, destination);
+        DoubleSummaryStatistics stats = rides.stream().mapToDouble(Ride::getPrice).summaryStatistics();
+
+        return new RidePriceStatisticsResponse(
+                stats.getCount() > 0 ? stats.getMin() : null,
+                stats.getCount() > 0 ? stats.getMax() : null,
+                stats.getCount() > 0 ? stats.getAverage() : null
+        );
     }
 
 }

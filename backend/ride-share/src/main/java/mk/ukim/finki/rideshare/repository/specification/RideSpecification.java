@@ -25,6 +25,15 @@ public class RideSpecification {
         );
     }
 
+    public static Specification<Ride> hasOriginLikeAndDestinationLike(String origin, String destination) {
+        return SpecificationFactory.chainAndSpecifications(
+                List.of(
+                        SpecificationFactory.like(RIDE_ORIGIN_FIELD, origin),
+                        SpecificationFactory.like(RIDE_DESTINATION_FIELD, destination)
+                )
+        );
+    }
+
     public static Specification<Ride> providerEqualsAndDepartureTimeGreaterThan(User provider, LocalDate date) {
         return SpecificationFactory.chainAndSpecifications(
                 List.of(

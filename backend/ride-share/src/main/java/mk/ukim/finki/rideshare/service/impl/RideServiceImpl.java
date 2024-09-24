@@ -111,4 +111,11 @@ public class RideServiceImpl implements RideService {
 
         return rideRepository.save(ride);
     }
+
+    @Override
+    public List<Ride> getAllByOriginLikeAndDestinationLike(String origin, String destination) {
+        return rideRepository.findAll(
+                RideSpecification.hasOriginLikeAndDestinationLike(origin, destination)
+        );
+    }
 }

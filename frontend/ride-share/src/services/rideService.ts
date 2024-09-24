@@ -1,5 +1,6 @@
 import axiosConfig from "../config/axiosConfig";
 import { CreateRideRequest } from "../interfaces/request/CreateRideRequest";
+import { RidePriceStatisticsResponse } from "../interfaces/response/RidePriceStatisticsResponse";
 import { RideResponse } from "../interfaces/response/RideResponse";
 
 const path = 'rides';
@@ -30,5 +31,8 @@ export const RideService = {
     },
     create: async (request: CreateRideRequest) => {
         return axiosConfig.post(path, request);
+    },
+    getPriceStatisticsForRide: async (origin: string, destination: string) => {
+        return axiosConfig.get<RidePriceStatisticsResponse>(`${path}/recommended-price`, { params: { origin, destination }});
     }
 }
