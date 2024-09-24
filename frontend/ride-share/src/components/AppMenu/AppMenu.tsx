@@ -85,7 +85,7 @@ const AppMenu: React.FC = () => {
         }
 
         return menuItems.map((item) => (
-            <Link to={item.link} style={{ textDecoration: 'none', color: 'white' }}>
+            <Link to={item.link} style={{ textDecoration: 'none', color: 'white' }} key={item.link}>
                 <Button key={item.link} color="inherit">
                     {item.label}
                 </Button>

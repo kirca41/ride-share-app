@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { BookingResponse } from "../../interfaces/response/BookingResponse";
 import { approve, decline, getAllForRide } from "../../services/bookingService";
 import BookingListItem from "../BookingListItem/BookingListItem";
+import { enqueueSnackbar } from "notistack";
 
 const RideBookingsList: React.FC = () => {
 
@@ -23,14 +24,24 @@ const RideBookingsList: React.FC = () => {
 
     const onApprove = async (id: number) => {
         const response = await approve(id);
-        if (response.status === 200)
+        if (response.status === 200) {
+            enqueueSnackbar('Successfully saved', {
+                variant: 'success',
+                autoHideDuration: 3000
+            });
             fetchBookingsForRide();
+        }
     }
 
     const onDecline = async (id: number) => {
         const response = await decline(id);
-        if (response.status === 200)
+        if (response.status === 200) {
+            enqueueSnackbar('Successfully saved', {
+                variant: 'success',
+                autoHideDuration: 3000
+            });
             fetchBookingsForRide();
+        }
     }
 
     let noBookingsForRideYet;

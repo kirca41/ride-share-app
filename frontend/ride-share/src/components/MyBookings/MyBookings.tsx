@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { BookingResponse } from "../../interfaces/response/BookingResponse";
 import { cancel, getAllForActiveUser } from "../../services/bookingService";
 import BookingListItem from "../BookingListItem/BookingListItem";
+import { enqueueSnackbar } from "notistack";
 
 const MyBookings: React.FC = () => {
 
@@ -22,8 +23,13 @@ const MyBookings: React.FC = () => {
 
     const onCancel = async (id: number) => {
         const response = await cancel(id);
-        if (response.status === 200)
+        if (response.status === 200) {
+            enqueueSnackbar('Successfully saved', {
+                variant: 'success',
+                autoHideDuration: 3000
+            });
             fetchBookingsForActiveUser();
+        }
     }
 
     const renderedBookings = bookings.map(booking => {
