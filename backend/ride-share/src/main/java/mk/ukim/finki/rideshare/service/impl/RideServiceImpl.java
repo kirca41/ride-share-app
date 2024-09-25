@@ -10,6 +10,7 @@ import mk.ukim.finki.rideshare.service.BookingRideManagingService;
 import mk.ukim.finki.rideshare.service.RideService;
 import mk.ukim.finki.rideshare.service.exception.RideShareServerException;
 import mk.ukim.finki.rideshare.service.helper.AuthHelperService;
+import mk.ukim.finki.rideshare.service.notification.MailNotificationService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ public class RideServiceImpl implements RideService {
     private final RideRepository rideRepository;
     private final AuthHelperService authHelperService;
     private final BookingRideManagingService bookingRideManagingService;
+    private final MailNotificationService mailNotificationService;
 
     @Override
     public List<Ride> search(String origin, String destination, LocalDate date, Integer seats, Sort sort) {
@@ -129,7 +131,11 @@ public class RideServiceImpl implements RideService {
         }
 
         ride.setIsCanceled(true);
-        return rideRepository.save(ride);
+        Ride updatedRide = rideRepository.save(ride);
+
+        List<Booking> bookingsForRide = bookingRideManagingService.getAllByRideAndStatusApproved(updatedRide);
+        bookingsForRide.forEach(booking -> mailNotificationService.createRideCancellationEmailNotification(updatedRide, booking.getBookedBy()));
+        return updatedRide;
     }
 
     private Boolean lessThan24HoursBeforeRideDepartureDateTime(ZonedDateTime rideDepartureDateTime) {
