@@ -15,6 +15,7 @@ export interface RideResponse {
     capacity: number;
     seatsLeft: number;
     isInstantBookingEnabled: boolean;
+    isCanceled: boolean;
     providerId: number;
     providerFullName: string;
 }

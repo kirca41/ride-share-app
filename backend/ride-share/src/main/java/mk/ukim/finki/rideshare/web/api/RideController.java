@@ -86,4 +86,9 @@ public class RideController {
         );
     }
 
+    @PutMapping("/{id}/cancel")
+    public RideResponse cancel(@PathVariable Long id) {
+        return rideConverter.toResponse(rideService.cancel(id));
+    }
+
 }

@@ -35,4 +35,6 @@ public interface RideService {
                 Boolean isInstantBookingEnabled);
 
     List<Ride> getAllByOriginLikeAndDestinationLike(String origin, String destination);
+
+    Ride cancel(Long rideId);
 }

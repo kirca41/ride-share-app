@@ -50,7 +50,7 @@ const MyBookings: React.FC = () => {
                     name="includePast"
                 />
             }
-            label="Include Past Rides"
+            label="Include Past Bookings"
         />
         <List sx={{ width: isSmallScreen ? "100%" : "60%", margin: "0 auto" }}>
             {renderedBookings}

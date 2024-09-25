@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.List;
@@ -106,6 +107,7 @@ public class RideServiceImpl implements RideService {
                 hasLuggageSpace,
                 capacity,
                 isInstantBookingEnabled,
+                false,
                 activeUser
         );
 
@@ -117,5 +119,21 @@ public class RideServiceImpl implements RideService {
         return rideRepository.findAll(
                 RideSpecification.hasOriginLikeAndDestinationLike(origin, destination)
         );
+    }
+
+    @Override
+    public Ride cancel(Long id) {
+        Ride ride = getById(id);
+        if (lessThan24HoursBeforeRideDepartureDateTime(ride.getDepartureDateTime())) {
+            throw new RideShareServerException("You cannot cancel a ride less than 24 hours before departure time");
+        }
+
+        ride.setIsCanceled(true);
+        return rideRepository.save(ride);
+    }
+
+    private Boolean lessThan24HoursBeforeRideDepartureDateTime(ZonedDateTime rideDepartureDateTime) {
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
+        return rideDepartureDateTime.minusHours(24).isBefore(now);
     }
 }

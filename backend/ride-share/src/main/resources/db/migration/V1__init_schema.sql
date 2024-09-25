@@ -36,6 +36,7 @@ create table ride (
     has_luggage_space          boolean default false,
     capacity                   integer default 0,
     is_instant_booking_enabled boolean default false,
+    is_canceled                boolean default false,
     provider_id                bigint references ride_share_user (id)
 );
 

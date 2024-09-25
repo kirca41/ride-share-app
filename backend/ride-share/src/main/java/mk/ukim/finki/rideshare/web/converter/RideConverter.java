@@ -33,6 +33,7 @@ public class RideConverter {
                 ride.getCapacity(),
                 ride.getCapacity() - bookingRideManagingService.getAllByRideAndStatusApproved(ride).stream().mapToInt(Booking::getSeatsBooked).sum(),
                 ride.getIsInstantBookingEnabled(),
+                ride.getIsCanceled(),
                 ride.getProvider().getId(),
                 ride.getProvider().getFullName()
         );

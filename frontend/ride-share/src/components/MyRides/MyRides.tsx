@@ -4,6 +4,7 @@ import { RideResponse } from "../../interfaces/response/RideResponse";
 import RideListItem from "../RideListItem/RideListItem";
 import { Link } from "react-router-dom";
 import { RideService } from "../../services/rideService";
+import { enqueueSnackbar } from "notistack";
 
 const MyRides: React.FC = () => {
 
@@ -19,14 +20,23 @@ const MyRides: React.FC = () => {
         setRides(ridesResponse.data);
     }
 
+    const onCancel = async (id: number) => {
+        const _ = await RideService.cancel(id);
+        enqueueSnackbar('Successfully saved', {
+            variant: 'success',
+            autoHideDuration: 3000
+        });
+        fetchMyRides();
+    }
+
     const renderedRides = rides.map(ride => {
-        return <RideListItem key={ride.id} ride={ride} isMyRidesView />
+        return <RideListItem key={ride.id} ride={ride} isMyRidesView onCancel={onCancel} />
     });
 
     let noPublishedRidesYet;
     if (renderedRides.length === 0) {
         noPublishedRidesYet = <Typography component="div" variant="body1">
-            You have no published rides yet. To publish you rist ride click <Link to="/publish-ride" style={{ textDecoration: "none", color: "#1976d2" }}>here</Link>.
+            You have no published rides yet. To publish you first ride click <Link to="/publish-ride" style={{ textDecoration: "none", color: "#1976d2" }}>here</Link>.
         </Typography>
     }
 
@@ -46,7 +56,8 @@ const MyRides: React.FC = () => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 gap: 1
-            }
+            },
+            margin: "0 auto"
         }}>
             {renderedRides}
             {noPublishedRidesYet}

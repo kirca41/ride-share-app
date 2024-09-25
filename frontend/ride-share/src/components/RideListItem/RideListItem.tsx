@@ -7,11 +7,20 @@ import HomeIcon from '@mui/icons-material/Home';
 import LuggageIcon from '@mui/icons-material/Luggage';
 import { Link, useNavigate } from 'react-router-dom';
 import { ChatService } from "../../services/chatService";
+import dayjs from "dayjs";
 
-const RideListItem = ({ ride, isMyRidesView }: { ride: RideResponse, isMyRidesView: boolean }) => {
+interface RideListItemProps {
+    ride: RideResponse;
+    isMyRidesView: boolean;
+    onCancel: (id: number) => void;
+}
+
+const RideListItem = ({ ride, isMyRidesView, onCancel }: RideListItemProps) => {
     const isDoorToDoorChip = ride.isDoorToDoor ? <Chip icon={<HomeIcon />} label="Door-to-Door" /> : '';
     const isInstantBookingEnabledChip = ride.isInstantBookingEnabled ? <Chip icon={<BoltIcon />} label="Instant Booking Enabled" /> : '';
     const hasLuggageSpaceChip = ride.hasLuggageSpace ? <Chip icon={<LuggageIcon />} label="Has Luggage Space" /> : '';
+    const rideDepartureDateTime = dayjs(ride.departureDate + ride.departureTime, "YYYY-MM-DD HH:mm");
+    const shouldShowCancelButton = rideDepartureDateTime.isAfter(dayjs().add(1, 'day')) && !ride.isCanceled;
     const navigate = useNavigate();
 
     const openChat = async (providerId: number) => {
@@ -57,6 +66,7 @@ const RideListItem = ({ ride, isMyRidesView }: { ride: RideResponse, isMyRidesVi
             </CardActions>}
             {isMyRidesView && <CardActions>
                 <Link to={`/rides/${ride.id}/bookings`}><Button variant="contained" size="small" color="success">View bookings</Button></Link>
+                {shouldShowCancelButton && <Button variant="contained" size="small" color="error" onClick={() => onCancel(ride.id)}>Cancel</Button>}
             </CardActions>}
         </Card>
     );

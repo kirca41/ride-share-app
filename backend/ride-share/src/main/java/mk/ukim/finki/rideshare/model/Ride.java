@@ -60,6 +60,9 @@ public class Ride extends BaseEntity {
     @Column(name = "is_instant_booking_enabled")
     private Boolean isInstantBookingEnabled;
 
+    @Column(name = "is_canceled")
+    private Boolean isCanceled;
+
     @ManyToOne
     @JoinColumn(name = "provider_id")
     private User provider;

@@ -15,7 +15,7 @@ const RideList: React.FC = () => {
     }
 
     const renderedRides = rides.map(ride => {
-        return <RideListItem key={ride.id} ride={ride} isMyRidesView={false} />
+        return <RideListItem key={ride.id} ride={ride} isMyRidesView={false} onCancel={() => {}} />
     });
 
     return <Box component="div" display="flex" flexDirection="column" gap={3} sx={{ maxWidth: '100vw', overflow: 'hidden', padding: '2%' }}>

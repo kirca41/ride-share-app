@@ -34,5 +34,8 @@ export const RideService = {
     },
     getPriceStatisticsForRide: async (origin: string, destination: string) => {
         return axiosConfig.get<RidePriceStatisticsResponse>(`${path}/recommended-price`, { params: { origin, destination }});
+    },
+    cancel: async (id: number) => {
+        return axiosConfig.put<RideResponse>(`${path}/${id}/cancel`);
     }
 }
