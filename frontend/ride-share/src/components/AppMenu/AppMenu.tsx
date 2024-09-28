@@ -61,7 +61,7 @@ const AppMenu: React.FC = () => {
         },
         {
             label: activeUser ? <Avatar sx={{ width: 35, height: 35 }}>{getActiveUserInitials()}</Avatar> : '',
-            link: '/user'
+            link: activeUser?.id ? `/user-profile/${activeUser.id}` : ''
         }
     ];
 

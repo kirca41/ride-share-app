@@ -10,5 +10,8 @@ export const RatingService = {
     },
     createOrUpdate: async (request: CreateRatingRequest) => {
         return axios.post<RatingResponse>(path, request);
+    },
+    getAllForProvider: async (providerId: number) => {
+        return axios.get<RatingResponse[]>(`${path}/provider/${providerId}`);
     }
 }

@@ -61,7 +61,7 @@ const RideListItem = ({ ride, isMyRidesView, onCancel }: RideListItemProps) => {
                 {ride.isInstantBookingEnabled && <Link to={`/book-ride/${ride.id}`}><Button variant="contained" size="small" color="success">Book</Button></Link>}
                 {!ride.isInstantBookingEnabled && <Link to={`/book-ride/${ride.id}`}><Button variant="contained" size="small" color="success">Request</Button></Link>}
                 <Box component="div" display="flex" justifyContent="flex-end" flexGrow={1}>
-                    <Button variant="text">{ride.providerFullName}</Button>
+                    <Link to={`/user-profile/${ride.providerId}`}><Button variant="text">{ride.providerFullName}</Button></Link>
                 </Box>
             </CardActions>}
             {isMyRidesView && <CardActions>

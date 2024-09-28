@@ -12,6 +12,7 @@ import mk.ukim.finki.rideshare.service.RatingService;
 import mk.ukim.finki.rideshare.service.exception.RideShareServerException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -51,5 +52,10 @@ public class RatingServiceImpl implements RatingService {
         rating.setValue(value);
         rating.setComment(comment);
         return ratingRepository.save(rating);
+    }
+
+    @Override
+    public List<Rating> getAllForProvider(User provider) {
+        return ratingRepository.findAllByRide_Provider(provider);
     }
 }

@@ -5,12 +5,15 @@ import mk.ukim.finki.rideshare.model.Ride;
 import mk.ukim.finki.rideshare.model.User;
 import mk.ukim.finki.rideshare.service.RatingService;
 import mk.ukim.finki.rideshare.service.RideService;
+import mk.ukim.finki.rideshare.service.UserService;
 import mk.ukim.finki.rideshare.service.exception.RideShareServerException;
 import mk.ukim.finki.rideshare.service.helper.AuthHelperService;
 import mk.ukim.finki.rideshare.web.converter.RatingConverter;
 import mk.ukim.finki.rideshare.web.request.CreateRatingRequest;
 import mk.ukim.finki.rideshare.web.response.RatingResponse;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,6 +24,7 @@ public class RatingController {
     private final RatingConverter ratingConverter;
     private final RideService rideService;
     private final AuthHelperService authHelperService;
+    private final UserService userService;
 
     @GetMapping("/ride/{rideId}")
     public RatingResponse getByRideId(@PathVariable Long rideId) {
@@ -41,5 +45,13 @@ public class RatingController {
 
         return ratingConverter.toResponse(
                 ratingService.createOrUpdate(request.id(), request.value(), request.comment(), ride, activeUser));
+    }
+
+    @GetMapping("/provider/{providerId}")
+    public List<RatingResponse> getAllForProvider(@PathVariable Long providerId) {
+        User provider = userService.getById(providerId);
+        return ratingService.getAllForProvider(provider)
+                .stream().map(ratingConverter::toResponse)
+                .toList();
     }
 }
