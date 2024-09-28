@@ -1,6 +1,7 @@
 package mk.ukim.finki.rideshare.service;
 
 import mk.ukim.finki.rideshare.model.Ride;
+import mk.ukim.finki.rideshare.model.User;
 import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
@@ -37,4 +38,6 @@ public interface RideService {
     List<Ride> getAllByOriginLikeAndDestinationLike(String origin, String destination);
 
     Ride cancel(Long rideId);
+
+    Long getNumberOfCancellationsByProviderInTheLastMonth(User provider);
 }

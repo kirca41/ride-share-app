@@ -1,9 +1,9 @@
 import { Box, Checkbox, FormControlLabel, List, Theme, useMediaQuery } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { BookingResponse } from "../../interfaces/response/BookingResponse";
-import { cancel, getAllForActiveUser } from "../../services/bookingService";
+import { BookingService } from "../../services/bookingService";
 import BookingListItem from "../BookingListItem/BookingListItem";
-import { enqueueSnackbar } from "notistack";
 
 const MyBookings: React.FC = () => {
 
@@ -17,12 +17,12 @@ const MyBookings: React.FC = () => {
     }, [includePast]);
 
     const fetchBookingsForActiveUser = async () => {
-        const bookingsResponse = await getAllForActiveUser(includePast);
+        const bookingsResponse = await BookingService.getAllForActiveUser(includePast);
         setBookings(bookingsResponse.data);
     }
 
     const onCancel = async (id: number) => {
-        const response = await cancel(id);
+        const response = await BookingService.cancel(id);
         if (response.status === 200) {
             enqueueSnackbar('Successfully saved', {
                 variant: 'success',

@@ -31,4 +31,6 @@ public interface BookingService {
     List<Booking> getAllForActiveUser(Boolean includePast);
 
     List<Booking> getAllByStatusAndRideDepartureTimeBefore(BookingStatus status, ZonedDateTime referenceDateTime);
+
+    Long getNumberOfCancellationsByBookedByInTheLastMonth(User bookedBy);
 }

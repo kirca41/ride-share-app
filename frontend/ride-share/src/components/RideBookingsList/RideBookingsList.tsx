@@ -1,10 +1,10 @@
 import { List, useMediaQuery } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { BookingResponse } from "../../interfaces/response/BookingResponse";
-import { approve, decline, getAllForRide } from "../../services/bookingService";
+import { BookingService } from "../../services/bookingService";
 import BookingListItem from "../BookingListItem/BookingListItem";
-import { enqueueSnackbar } from "notistack";
 
 const RideBookingsList: React.FC = () => {
 
@@ -18,12 +18,12 @@ const RideBookingsList: React.FC = () => {
     }, [rideId]);
 
     const fetchBookingsForRide = async () => {
-        const bookingsResponse = await getAllForRide(Number(rideId));
+        const bookingsResponse = await BookingService.getAllForRide(Number(rideId));
         setBookings(bookingsResponse.data);
     }
 
     const onApprove = async (id: number) => {
-        const response = await approve(id);
+        const response = await BookingService.approve(id);
         if (response.status === 200) {
             enqueueSnackbar('Successfully saved', {
                 variant: 'success',
@@ -34,7 +34,7 @@ const RideBookingsList: React.FC = () => {
     }
 
     const onDecline = async (id: number) => {
-        const response = await decline(id);
+        const response = await BookingService.decline(id);
         if (response.status === 200) {
             enqueueSnackbar('Successfully saved', {
                 variant: 'success',

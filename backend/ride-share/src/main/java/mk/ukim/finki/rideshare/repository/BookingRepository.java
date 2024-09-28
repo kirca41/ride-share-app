@@ -22,4 +22,6 @@ public interface BookingRepository extends JpaRepository<Booking, Long>,
     List<Booking> findAllByRideOrderByStatus(Ride ride);
 
     List<Booking> findAllByStatusAndRide_DepartureDateTimeBefore(BookingStatus status, ZonedDateTime referenceDateTime);
+
+    Long countByStatusAndBookedByAndBookedAtBetween(BookingStatus status, User bookedBy, ZonedDateTime from, ZonedDateTime to);
 }

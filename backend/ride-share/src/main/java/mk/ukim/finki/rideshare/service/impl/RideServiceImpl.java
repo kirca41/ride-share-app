@@ -142,4 +142,12 @@ public class RideServiceImpl implements RideService {
         ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
         return rideDepartureDateTime.minusHours(24).isBefore(now);
     }
+
+    @Override
+    public Long getNumberOfCancellationsByProviderInTheLastMonth(User provider) {
+        ZonedDateTime to = ZonedDateTime.now(ZoneId.systemDefault());
+        ZonedDateTime from = to.minusMonths(1);
+
+        return rideRepository.countByProviderAndIsCanceledIsTrueAndDepartureDateTimeBetween(provider, from, to);
+    }
 }

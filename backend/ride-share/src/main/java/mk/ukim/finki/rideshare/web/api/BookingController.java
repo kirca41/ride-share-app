@@ -2,7 +2,9 @@ package mk.ukim.finki.rideshare.web.api;
 
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.rideshare.model.Booking;
+import mk.ukim.finki.rideshare.model.User;
 import mk.ukim.finki.rideshare.service.BookingService;
+import mk.ukim.finki.rideshare.service.UserService;
 import mk.ukim.finki.rideshare.web.converter.BookingConverter;
 import mk.ukim.finki.rideshare.web.request.CreateBookingRequest;
 import mk.ukim.finki.rideshare.web.response.BookingResponse;
@@ -18,6 +20,7 @@ public class BookingController {
 
     private final BookingService bookingService;
     private final BookingConverter bookingConverter;
+    private final UserService userService;
 
     @PostMapping
     public BookingResponse create(@RequestBody CreateBookingRequest createBookingRequest) {
@@ -55,5 +58,12 @@ public class BookingController {
                 .sorted(Comparator.comparing(Booking::getBookedAt))
                 .map(bookingConverter::toResponse)
                 .toList();
+    }
+
+    @GetMapping("/{bookedById}/booked-by-cancellations")
+    public Long getNumberOfCancellationsByBookedByInTheLastMonth(@PathVariable Long bookedById) {
+        User bookedBy = userService.getById(bookedById);
+
+        return bookingService.getNumberOfCancellationsByBookedByInTheLastMonth(bookedBy);
     }
 }

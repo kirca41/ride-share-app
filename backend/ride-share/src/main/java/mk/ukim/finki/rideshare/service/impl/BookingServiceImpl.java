@@ -158,4 +158,13 @@ public class BookingServiceImpl implements BookingService {
     public List<Booking> getAllByStatusAndRideDepartureTimeBefore(BookingStatus status, ZonedDateTime referenceDateTime) {
         return bookingRepository.findAllByStatusAndRide_DepartureDateTimeBefore(status, referenceDateTime);
     }
+
+    @Override
+    public Long getNumberOfCancellationsByBookedByInTheLastMonth(User bookedBy) {
+        BookingStatus canceled = bookingStatusService.findByName(ApplicationConstants.BOOKING_STATUS_CANCELED);
+        ZonedDateTime to = ZonedDateTime.now(ZoneId.systemDefault());
+        ZonedDateTime from = to.minusMonths(1);
+
+        return bookingRepository.countByStatusAndBookedByAndBookedAtBetween(canceled, bookedBy, from, to);
+    }
 }

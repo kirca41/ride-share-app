@@ -1,33 +1,31 @@
-import axiosConfig from "../config/axiosConfig";
+import axios from "../config/axiosConfig";
 import { CreateBookingRequest } from "../interfaces/request/CreateBookingRequest";
 import { BookingResponse } from "../interfaces/response/BookingResponse";
 
 const path = 'bookings';
 
-const createBooking = async (request: CreateBookingRequest) => {
-    return axiosConfig.post<BookingResponse>(path, request);
+export const BookingService = {
+    createBooking: async (request: CreateBookingRequest) => {
+        return axios.post<BookingResponse>(path, request);
+    },
+    getAllForRide: async (rideId: number) => {
+        return axios.get<BookingResponse[]>(`${path}/rides/${rideId}`);
+    },
+    getAllForActiveUser: async (includePast: boolean) => {
+        return axios.get<BookingResponse[]>(path, {
+            params: { includePast }
+        });
+    },
+    approve: async (id: number) => {
+        return axios.put<BookingResponse>(`${path}/${id}/approve`);
+    },
+    decline: async (id: number) => {
+        return axios.put<BookingResponse>(`${path}/${id}/decline`);
+    },
+    cancel: async (id: number) => {
+        return axios.put<BookingResponse>(`${path}/${id}/cancel`);
+    },
+    getNumberOfCancellationsByBookedByInTheLastMonth: async (bookedById: number) => {
+        return axios.get<number>(`${path}/${bookedById}/booked-by-cancellations`);
+    }
 }
-
-const getAllForRide = async (rideId: number) => {
-    return axiosConfig.get<BookingResponse[]>(`${path}/rides/${rideId}`);
-}
-
-const getAllForActiveUser = async (includePast: boolean) => {
-    return axiosConfig.get<BookingResponse[]>(path, {
-        params: { includePast }
-    });
-}
-
-const approve = async (id: number) => {
-    return axiosConfig.put<BookingResponse>(`${path}/${id}/approve`);
-}
-
-const decline = async (id: number) => {
-    return axiosConfig.put<BookingResponse>(`${path}/${id}/decline`);
-}
-
-const cancel = async (id: number) => {
-    return axiosConfig.put<BookingResponse>(`${path}/${id}/cancel`);
-}
-
-export { createBooking, getAllForRide, getAllForActiveUser, approve, decline, cancel };

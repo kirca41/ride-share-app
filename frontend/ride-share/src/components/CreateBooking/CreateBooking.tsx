@@ -6,10 +6,10 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import BoltIcon from '@mui/icons-material/Bolt';
 import HomeIcon from '@mui/icons-material/Home';
 import LuggageIcon from '@mui/icons-material/Luggage';
-import { createBooking } from "../../services/bookingService";
 import { CreateBookingRequest } from "../../interfaces/request/CreateBookingRequest";
 import { enqueueSnackbar } from "notistack";
 import { RideService } from "../../services/rideService";
+import { BookingService } from "../../services/bookingService";
 
 const CreateBooking: React.FC = () => {
 
@@ -40,7 +40,7 @@ const CreateBooking: React.FC = () => {
                 rideId: ride.id,
                 seatsToBook: seats
             }
-            await createBooking(request);
+            await BookingService.createBooking(request);
 
             enqueueSnackbar('Successfully saved', {
                 variant: 'success',

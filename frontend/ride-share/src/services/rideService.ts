@@ -37,5 +37,8 @@ export const RideService = {
     },
     cancel: async (id: number) => {
         return axiosConfig.put<RideResponse>(`${path}/${id}/cancel`);
+    },
+    getNumberOfCancellationsByProviderInTheLastMonth: async (providerId: number) => {
+        return axiosConfig.get<number>(`${path}/${providerId}/provider-cancellations`);
     }
 }

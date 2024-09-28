@@ -2,7 +2,9 @@ package mk.ukim.finki.rideshare.web.api;
 
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.rideshare.model.Ride;
+import mk.ukim.finki.rideshare.model.User;
 import mk.ukim.finki.rideshare.service.RideService;
+import mk.ukim.finki.rideshare.service.UserService;
 import mk.ukim.finki.rideshare.web.converter.RideConverter;
 import mk.ukim.finki.rideshare.web.request.CreateRideRequest;
 import mk.ukim.finki.rideshare.web.response.RidePriceStatisticsResponse;
@@ -23,6 +25,7 @@ public class RideController {
 
     private final RideService rideService;
     private final RideConverter rideConverter;
+    private final UserService userService;
 
     @GetMapping("/search")
     public List<RideResponse> search(@RequestParam(required = false) String origin,
@@ -89,6 +92,13 @@ public class RideController {
     @PutMapping("/{id}/cancel")
     public RideResponse cancel(@PathVariable Long id) {
         return rideConverter.toResponse(rideService.cancel(id));
+    }
+
+    @GetMapping("/{providerId}/provider-cancellations")
+    public Long getNumberOfCancellationsByProviderInTheLastMonth(@PathVariable Long providerId) {
+        User provider = userService.getById(providerId);
+
+        return rideService.getNumberOfCancellationsByProviderInTheLastMonth(provider);
     }
 
 }
