@@ -56,6 +56,10 @@ const AppMenu: React.FC = () => {
             link: '/publish-ride'
         },
         {
+            label: 'Chat',
+            link: '/chat'
+        },
+        {
             label: 'Logout',
             link: '/logout',
         },

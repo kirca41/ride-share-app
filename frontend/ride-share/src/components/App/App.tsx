@@ -16,6 +16,7 @@ import RideBookingsList from "../RideBookingsList/RideBookingsList";
 import RideList from "../RideList/RideList";
 import RideRating from "../RideRating/RideRating";
 import UserProfile from "../UserProfile/UserProfile";
+import ChatList from "../ChatList/ChatList";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: '/user-profile/:userId',
         element: <UserProfile />
+      },
+      {
+        path: '/chat',
+        element: <ChatList />
       }
     ],
   },

@@ -11,4 +11,6 @@ public interface MessageService {
     List<Message> findAllByChat(Chat chat);
 
     Message create(String content, User sender, Chat chat);
+
+    Message getLastMessageForChat(Chat chat);
 }

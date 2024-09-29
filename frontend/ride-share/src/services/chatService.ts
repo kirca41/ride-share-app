@@ -1,13 +1,16 @@
-import axiosConfig from "../config/axiosConfig"
+import axios from "../config/axiosConfig"
 import { ChatResponse } from "../interfaces/response/ChatResponse"
 
 const path = '/chats';
 
 export const ChatService = {
     getOrCreate: async (otherParticipantId: number) => {
-        return axiosConfig.put<ChatResponse>(`${path}/${otherParticipantId}`);
+        return axios.put<ChatResponse>(`${path}/${otherParticipantId}`);
     },
     getByUuid: async (uuid: string) => {
-        return axiosConfig.get<ChatResponse>(`${path}/${uuid}`);
+        return axios.get<ChatResponse>(`${path}/${uuid}`);
+    },
+    getAllForParticipant: async (participantId: number) => {
+        return axios.get<ChatResponse[]>(`${path}/participant/${participantId}`);
     }
 }

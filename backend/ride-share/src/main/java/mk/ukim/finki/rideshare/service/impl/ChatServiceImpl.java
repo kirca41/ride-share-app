@@ -8,6 +8,7 @@ import mk.ukim.finki.rideshare.service.ChatService;
 import mk.ukim.finki.rideshare.service.exception.RideShareServerException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -32,5 +33,10 @@ public class ChatServiceImpl implements ChatService {
     public Chat getByUuid(UUID uuid) {
         return chatRepository.findByUuid(uuid)
                 .orElseThrow(() -> new RideShareServerException("Chat with uuid %s not found".formatted(uuid)));
+    }
+
+    @Override
+    public List<Chat> getAllForParticipant(User participant) {
+        return chatRepository.findAllByParticipant(participant);
     }
 }

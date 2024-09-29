@@ -1,3 +1,5 @@
+import { MessageResponse } from "./MessageResponse";
+
 export interface ChatResponse {
     id: number;
     uuid: string;
@@ -5,4 +7,5 @@ export interface ChatResponse {
     participant1FullName: string;
     participant2Id: number;
     participant2FullName: string;
+    lastMessage?: MessageResponse;
 }

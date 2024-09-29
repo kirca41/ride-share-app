@@ -34,4 +34,10 @@ public class MessageServiceImpl implements MessageService {
                 )
         );
     }
+
+    @Override
+    public Message getLastMessageForChat(Chat chat) {
+        return messageRepository.findFirstByChatOrderByTimestampDesc(chat)
+                .orElse(null);
+    }
 }

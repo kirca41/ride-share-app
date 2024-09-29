@@ -8,6 +8,7 @@ public record ChatResponse(
         Long participant1Id,
         String participant1FullName,
         Long participant2Id,
-        String participant2FullName
+        String participant2FullName,
+        MessageResponse lastMessage
 ) {
 }

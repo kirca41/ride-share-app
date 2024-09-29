@@ -3,6 +3,7 @@ package mk.ukim.finki.rideshare.service;
 import mk.ukim.finki.rideshare.model.Chat;
 import mk.ukim.finki.rideshare.model.User;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface ChatService {
@@ -12,4 +13,6 @@ public interface ChatService {
     Chat getById(Long id);
 
     Chat getByUuid(UUID uuid);
+
+    List<Chat> getAllForParticipant(User participant);
 }
