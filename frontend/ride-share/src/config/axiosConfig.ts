@@ -9,8 +9,9 @@ axiosConfig.interceptors.request.use(
   (config) => {
     const controller = new AbortController();
     const token = localStorage.getItem('jwt');
+    const url = config.url;
     
-    if (!token && !config.url?.includes("public") && !config.url?.includes("nominatim")) {
+    if (!token && !url?.includes("public") && !url?.includes("nominatim") && !url?.includes("api/rides/search")) {
       controller.abort();
       enqueueSnackbar('You must be logged in to continue', {
         variant: 'error', 

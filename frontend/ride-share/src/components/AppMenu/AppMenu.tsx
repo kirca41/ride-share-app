@@ -60,8 +60,8 @@ const AppMenu: React.FC = () => {
             link: '/chat'
         },
         {
-            label: 'Logout',
-            link: '/logout',
+            label: activeUser ? 'Logout' : 'Login',
+            link: activeUser ? '/logout' : '/login'
         },
         {
             label: activeUser ? <Avatar sx={{ width: 35, height: 35 }}>{getActiveUserInitials()}</Avatar> : '',
