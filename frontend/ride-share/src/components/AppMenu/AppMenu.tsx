@@ -45,27 +45,33 @@ const AppMenu: React.FC = () => {
     const menuItems = [
         {
             label: 'My Rides',
-            link: '/my-rides'
+            link: '/my-rides',
+            isPublic: false
         },
         {
             label: 'My Bookings',
-            link: '/my-bookings'
+            link: '/my-bookings',
+            isPublic: false
         },
         {
             label: 'Publish Ride',
-            link: '/publish-ride'
+            link: '/publish-ride',
+            isPublic: false
         },
         {
             label: 'Chat',
-            link: '/chat'
+            link: '/chat',
+            isPublic: false
         },
         {
             label: activeUser ? 'Logout' : 'Login',
-            link: activeUser ? '/logout' : '/login'
+            link: activeUser ? '/logout' : '/login',
+            isPublic: true
         },
         {
             label: activeUser ? <Avatar sx={{ width: 35, height: 35 }}>{getActiveUserInitials()}</Avatar> : '',
-            link: activeUser?.id ? `/user-profile/${activeUser.id}` : ''
+            link: activeUser?.id ? `/user-profile/${activeUser.id}` : '',
+            isPublic: true
         }
     ];
 
@@ -78,31 +84,28 @@ const AppMenu: React.FC = () => {
         if (open) setUnreadMessagesNumber(0);
     };
 
-    const renderMenuItems = () => {
-        if (isSmallScreen) {
+    const renderedMenuItems = menuItems.map((item) => {
+        if (!activeUser && !item.isPublic)
+            return <></>;
 
-            return menuItems.map((item) => (
-                <ListItemButton component={Link} to={item.link} key={item.link}>
-                    <ListItemText primary={item.label} />
-                </ListItemButton >
-            ));
+        if (isSmallScreen) {
+            return <ListItemButton component={Link} to={item.link} key={item.link}>
+                <ListItemText primary={item.label} />
+            </ListItemButton >
         }
 
-        return menuItems.map((item) => (
-            <Link to={item.link} style={{ textDecoration: 'none', color: 'white' }} key={item.link}>
-                <Button key={item.link} color="inherit">
-                    {item.label}
-                </Button>
-            </Link>
-        ));
-
-    };
+        return <Link to={item.link} style={{ textDecoration: 'none', color: 'white' }} key={item.link}>
+            <Button key={item.link} color="inherit">
+                {item.label}
+            </Button>
+        </Link>
+    });
 
     return (
         <AppBar position="static">
             <Toolbar>
                 <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                    <Link to='/' style={{ textDecoration: 'none', color: 'white' }}>RideShare</Link>
+                    <Link to='/' style={{ textDecoration: 'none', color: 'white' }}>WheelShare</Link>
                 </Typography>
                 <IconButton color="inherit" onClick={toggleNotificationDrawer(true)}>
                     <Badge badgeContent={unreadMessagesNumber} color="error">
@@ -121,12 +124,12 @@ const AppMenu: React.FC = () => {
                         </IconButton>
                         <Drawer anchor="bottom" open={drawerOpen} onClose={toggleDrawer(false)}>
                             <List>
-                                {renderMenuItems()}
+                                {renderedMenuItems}
                             </List>
                         </Drawer>
                     </>
                 ) : (
-                    renderMenuItems()
+                    renderedMenuItems
                 )}
                 <Drawer anchor="bottom" open={notificationDrawerOpen} onClose={toggleNotificationDrawer(false)}>
                     <List>
