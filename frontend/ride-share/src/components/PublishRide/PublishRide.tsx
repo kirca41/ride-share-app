@@ -173,7 +173,14 @@ const PublishRide: React.FC = () => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        {!formData.isDoorToDoor && formData.origin && <Map latitude={formData.origin.latitude} longitude={formData.origin.longitude} handleMarkerDragEnd={handleMarkerDragEndOrigin} />}
+                        {!formData.isDoorToDoor && formData.origin &&
+                            <Map 
+                                latitude={formData.origin.latitude}
+                                longitude={formData.origin.longitude}
+                                draggable={true}
+                                handleMarkerDragEnd={handleMarkerDragEndOrigin} 
+                            />
+                        }
                     </Grid>
                     <Grid item xs={12}>
                         <Autocomplete
@@ -190,7 +197,14 @@ const PublishRide: React.FC = () => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        {!formData.isDoorToDoor && formData.destination && <Map latitude={formData.destination.latitude} longitude={formData.destination.longitude} handleMarkerDragEnd={handleMarkerDragEndDestination} />}
+                        {!formData.isDoorToDoor && formData.destination &&
+                            <Map 
+                                latitude={formData.destination.latitude}
+                                longitude={formData.destination.longitude}
+                                draggable={true}
+                                handleMarkerDragEnd={handleMarkerDragEndDestination} 
+                            />
+                        }
                     </Grid>
                     <Grid item xs={12}>
                         <FormControlLabel

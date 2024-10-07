@@ -6,10 +6,11 @@ import 'leaflet/dist/leaflet.css';
 interface MapProps {
     latitude: number;
     longitude: number;
+    draggable: boolean;
     handleMarkerDragEnd: (latitude: number, longitude: number) => void
 }
 
-export const Map = ({ latitude, longitude, handleMarkerDragEnd }: MapProps) => {
+export const Map = ({ latitude, longitude, draggable, handleMarkerDragEnd }: MapProps) => {
 
     const mapRef = useRef<LeafletMap | null>(null);
     const markerRef = useRef<LeafletMarker | null>(null);
@@ -40,6 +41,6 @@ export const Map = ({ latitude, longitude, handleMarkerDragEnd }: MapProps) => {
         style={{ height: "300px" }}
     >
        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-       {latitude && longitude && <Marker draggable ref={markerRef} position={[latitude, longitude]} eventHandlers={eventHandlers} />}
+       {latitude && longitude && <Marker draggable={draggable} ref={markerRef} position={[latitude, longitude]} eventHandlers={eventHandlers} />}
     </MapContainer>;
 }
