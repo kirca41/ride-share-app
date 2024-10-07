@@ -148,7 +148,7 @@ const PublishRide: React.FC = () => {
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Typography variant="h3" component="div" display="flex" justifyContent="center" color="primary">
+            <Typography variant="h3" component="div" display="flex" justifyContent="center" color="primary" sx={{ mt: 3 }}>
                 Publish a ride
             </Typography>
             <form onSubmit={handleSubmit}>

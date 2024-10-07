@@ -107,11 +107,11 @@ const AppMenu: React.FC = () => {
                 <Typography variant="h6" sx={{ flexGrow: 1 }}>
                     <Link to='/' style={{ textDecoration: 'none', color: 'white' }}>WheelShare</Link>
                 </Typography>
-                <IconButton color="inherit" onClick={toggleNotificationDrawer(true)}>
+                {activeUser && <IconButton color="inherit" onClick={toggleNotificationDrawer(true)}>
                     <Badge badgeContent={unreadMessagesNumber} color="error">
                         <NotificationsIcon />
                     </Badge>
-                </IconButton>
+                </IconButton>}
                 {isSmallScreen ? (
                     <>
                         <IconButton
