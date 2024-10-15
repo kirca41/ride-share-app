@@ -20,12 +20,13 @@ const RideList: React.FC = () => {
 
     return <Box component="div" display="flex" flexDirection="column" gap={3} sx={{ maxWidth: '100vw', overflow: 'hidden', padding: '2%' }}>
         <SearchRidesForm onSearchRidesFormSubmit={onSearchRidesFormSubmit} />
-        <Box component="div" display="flex" gap={3} height="100vh" sx={{
+        <Box component="div" display="flex" gap={3} sx={{
             '@media (max-width: 600px)': {
                 flexDirection: 'column',
                 alignItems: 'center',
                 gap: 1,
-            }
+            },
+            alignItems: 'stretch'
         }}>
             {renderedRides}
             {renderedRides.length === 0 && 'No rides were found in the system for the given criteria.'}

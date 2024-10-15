@@ -34,7 +34,7 @@ public class RideServiceImpl implements RideService {
     public List<Ride> search(String origin, String destination, LocalDate date, Integer seats, Sort sort) {
         List<Ride> rides = rideRepository.findAll(
                 RideSpecification
-                        .hasOriginLikeAndDestinationLikeAndDepartureDateTime(
+                        .hasOriginLikeAndDestinationLikeAndDepartureDateTimeAndNotIsCancelled(
                                 origin, destination, date
                         ),
                 sort

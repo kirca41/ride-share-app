@@ -51,12 +51,13 @@ const MyRides: React.FC = () => {
             }
             label="Include Past Rides"
         />
-        <Box component="div" display="flex" gap={3} height="100vh" flexWrap="wrap" sx={{
+        <Box component="div" display="flex" gap={3} flexWrap="wrap" sx={{
             '@media (max-width: 600px)': {
                 flexDirection: 'row',
                 alignItems: 'center',
                 gap: 1
             },
+            alignItems: 'stretch',
             margin: "0 auto"
         }}>
             {renderedRides}

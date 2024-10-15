@@ -1,6 +1,7 @@
 package mk.ukim.finki.rideshare.service.notification;
 
 import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.rideshare.model.BookingStatus;
 import mk.ukim.finki.rideshare.model.Ride;
 import mk.ukim.finki.rideshare.model.User;
 import mk.ukim.finki.rideshare.model.enums.NotificationType;
@@ -32,6 +33,9 @@ public class MailNotificationService {
     private static final String RIDE_CANCELLATION_EMAIL_SUBJECT = "Ride canceled";
     private static final String RIDE_CANCELLATION_EMAIL_TEMPLATE_NAME = "ride_cancellation";
 
+
+    private static final String BOOKING_REQUEST_OUTCOME_EMAIL_SUBJECT = "Booking request outcome";
+    private static final String BOOKING_REQUEST_OUTCOME_EMAIL_TEMPLATE_NAME = "booking_request_outcome";
 
     public void createBookingEmailNotifications(User activeUser, Ride ride) {
         Map<String, Object> context = new HashMap<>();
@@ -120,6 +124,26 @@ public class MailNotificationService {
                 RIDE_CANCELLATION_EMAIL_SUBJECT,
                 bookedBy.getUsername(),
                 RIDE_CANCELLATION_EMAIL_TEMPLATE_NAME,
+                context
+        );
+    }
+
+    public void createBookingRequestOutcomeEmailNotification(User bookedBy, Ride ride, BookingStatus bookingStatus) {
+        Map<String, Object> context = new HashMap<>();
+        context.put("userFullName", bookedBy.getFullName());
+        context.put("providerFullName", ride.getProvider().getFullName());
+        context.put("departureDate", ride.getDepartureDateTime().toLocalDate().format(DateTimeFormatter.ISO_LOCAL_DATE));
+        context.put("departureTime", ride.getDepartureDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+        context.put("rideOrigin", ride.getOrigin());
+        context.put("rideDestination", ride.getDestination());
+        context.put("ridePrice", ride.getPrice());
+        context.put("bookingStatusPrettyName", bookingStatus.getPrettyName());
+
+        notificationService.create(
+                NotificationType.EMAIL,
+                BOOKING_REQUEST_OUTCOME_EMAIL_SUBJECT,
+                bookedBy.getUsername(),
+                BOOKING_REQUEST_OUTCOME_EMAIL_TEMPLATE_NAME,
                 context
         );
     }

@@ -44,8 +44,17 @@ const RideListItem = ({ ride, isMyRidesView, onCancel }: RideListItemProps) => {
 
     return (
         <>
-            <Card variant="outlined" sx={{ maxWidth: '100vw', height: 'fit-content' }} key={ride.id}>
-                <CardContent>
+            <Card 
+                variant="outlined"
+                sx={{ 
+                    maxWidth: '100vw',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end'
+                }} 
+                    key={ride.id}
+            >
+                <CardContent sx={{ flexGrow: 1 }}>
                     <Typography variant="h5" component="div" display="flex" alignItems="center">
                         {ride.origin} <ArrowForwardIcon /> {ride.destination}
                     </Typography>
@@ -64,10 +73,8 @@ const RideListItem = ({ ride, isMyRidesView, onCancel }: RideListItemProps) => {
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
                         Seats left: {ride.seatsLeft}
                     </Typography>
-                    {!ride.isDoorToDoor && <Box sx={{ mb: 1.5 }} color="text.secondary">
+                    {!ride.isDoorToDoor && <Box sx={{ mb: 1.5 }} color="text.secondary" display="flex" gap={2}>
                         <Chip color="info" icon={<PlaceIcon />} label="View meeting point" onClick={handleMeetingPointDialogOpenClick} />
-                    </Box>}
-                    {!ride.isDoorToDoor && <Box sx={{ mb: 1.5 }} color="text.secondary">
                         <Chip color="info" icon={<PlaceIcon />} label="View drop off point" onClick={handleDropOffPointDialogOpenClick} />
                     </Box>}
                     <Box display="flex" flexWrap="wrap" gap={2}>

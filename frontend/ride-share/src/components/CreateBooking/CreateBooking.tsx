@@ -61,11 +61,10 @@ const CreateBooking: React.FC = () => {
         '@media (min-width: 600px)': {
             display: "flex",
             justifyContent: "center",
-            width: "60%",
-            margin: "0 auto"
+            width: "100%",       
         }
     }}>
-        {ride && <Card>
+        {ride && <Card sx={{ width: "60%", margin: "2% auto", '@media (max-width: 600px)': { width: "100%" } }}>
             <CardHeader title="Booking Info" titleTypographyProps={{ variant: "h3", component: "div", align: "center", color: "primary" }} />
             <CardContent>
                 <Box display="flex" flexDirection="column" gap={1}>

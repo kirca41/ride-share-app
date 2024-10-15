@@ -54,11 +54,11 @@ const BookingListItem: React.FC<BookingListItemProps> = ({ booking, isSmallScree
                             </Button>
                         </Grid>
                     </Grid>
-                ) : (<Grid item xs={12} sm={4}><Typography variant="h6" align={isSmallScreen ? 'left' : 'right'} color="primary" sx={{ textAlign: 'center' }}>
+                ) : (<Grid item xs={12} sm={4}><Typography variant="h6" align={isSmallScreen ? 'left' : 'right'} color="primary" sx={{ textAlign: 'left' }}>
                     {booking.statusPrettyName}
                 </Typography></Grid>
                 )}
-                {shouldShowActionButtons && booking.statusName !== BookingStatus.DECLINED && booking.statusName !== BookingStatus.CANCELED && isMyBookingsView && <Grid item>
+                {shouldShowActionButtons && booking.statusName !== BookingStatus.DECLINED && booking.statusName !== BookingStatus.CANCELED && isMyBookingsView && <Grid item xs={12} sm={4}>
                         <Button
                             variant="contained"
                             color="error"

@@ -55,7 +55,7 @@ const UserProfile: React.FC = () => {
     }
 
     const getAverageRating = () => {
-        return ratings.map(rating => rating.value).reduce((prev, curr) => prev + curr, 0);
+        return ratings.map(rating => rating.value).reduce((prev, curr) => prev + curr, 0) / ratings.length;
     }
 
     const renderedRatings = ratings.map((rating, index) => (

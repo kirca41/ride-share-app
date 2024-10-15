@@ -15,12 +15,15 @@ public class RideSpecification {
     private static final String RIDE_DEPARTURE_DATE_TIME = "departureDateTime";
     private static final String RIDE_PROVIDER = "provider";
 
-    public static Specification<Ride> hasOriginLikeAndDestinationLikeAndDepartureDateTime(String origin, String destination, LocalDate departureDateTime) {
+    private static final String RIDE_IS_CANCELED = "isCanceled";
+
+    public static Specification<Ride> hasOriginLikeAndDestinationLikeAndDepartureDateTimeAndNotIsCancelled(String origin, String destination, LocalDate departureDateTime) {
         return SpecificationFactory.chainAndSpecifications(
                 List.of(
                         SpecificationFactory.like(RIDE_ORIGIN_FIELD, origin),
                         SpecificationFactory.like(RIDE_DESTINATION_FIELD, destination),
-                        SpecificationFactory.dateEquals(RIDE_DEPARTURE_DATE_TIME, departureDateTime, ZoneId.systemDefault())
+                        SpecificationFactory.dateEquals(RIDE_DEPARTURE_DATE_TIME, departureDateTime, ZoneId.systemDefault()),
+                        SpecificationFactory.equalsValue(RIDE_IS_CANCELED, false)
                 )
         );
     }

@@ -156,7 +156,8 @@ const PublishRide: React.FC = () => {
                     '@media (min-width: 600px)': {
                         width: "50%",
                         margin: "0 auto"
-                    }
+                    },
+                    padding: "3%"
                 }}>
                     <Grid item xs={12}>
                         <Autocomplete

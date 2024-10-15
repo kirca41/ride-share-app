@@ -94,7 +94,12 @@ public class BookingServiceImpl implements BookingService {
             throw new RideShareServerException("Not enough seats left for this ride");
         }
 
-        return updateStatus(booking, ApplicationConstants.BOOKING_STATUS_APPROVED);
+        booking = updateStatus(booking, ApplicationConstants.BOOKING_STATUS_APPROVED);
+        mailNotificationService.createBookingRequestOutcomeEmailNotification(
+                booking.getBookedBy(), booking.getRide(), booking.getStatus()
+        );
+
+        return booking;
     }
 
     @Override
@@ -128,7 +133,12 @@ public class BookingServiceImpl implements BookingService {
             throw new RideShareServerException("Only bookings with status %s can be declined".formatted(bookingStatusNew.getPrettyName()));
         }
 
-        return updateStatus(booking, ApplicationConstants.BOOKING_STATUS_DECLINED);
+        booking = updateStatus(booking, ApplicationConstants.BOOKING_STATUS_DECLINED);
+        mailNotificationService.createBookingRequestOutcomeEmailNotification(
+                booking.getBookedBy(), booking.getRide(), booking.getStatus()
+        );
+
+        return booking;
     }
 
     @Override
