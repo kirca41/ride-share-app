@@ -7,6 +7,7 @@ import mk.ukim.finki.rideshare.service.BookingRideManagingService;
 import mk.ukim.finki.rideshare.web.response.RideResponse;
 import org.springframework.stereotype.Component;
 
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 @RequiredArgsConstructor
@@ -25,8 +26,8 @@ public class RideConverter {
                 ride.getDestinationLatitude(),
                 ride.getDestinationLongitude(),
                 ride.getIsDoorToDoor(),
-                ride.getDepartureDateTime().toLocalDate().format(DateTimeFormatter.ISO_LOCAL_DATE),
-                ride.getDepartureDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")),
+                ride.getDepartureDateTime().withZoneSameInstant(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ISO_LOCAL_DATE),
+                ride.getDepartureDateTime().withZoneSameInstant(ZoneId.systemDefault()).toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")),
                 ride.getIsDepartureTimeFlexible(),
                 ride.getPrice(),
                 ride.getHasLuggageSpace(),
